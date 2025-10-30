@@ -1,0 +1,819 @@
+<html lang="zh-CN"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中医知识问答大模型 - 科研进展展示</title>
+    <!-- Tailwind CSS v3 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- 统一的 Tailwind 配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2D5D3B',     // 深绿色
+                        secondary: '#8B5A2B',   // 棕色
+                        accent: '#4F7942',      // 中绿色
+                        light: '#F5F5DC',       // 米黄色
+                        dark: '#3E2723',        // 深棕色
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        serif: ['"Noto Serif SC"', 'serif'],
+                    },
+                    backgroundImage: {
+                        'paper-texture': "url('https://p3-doubao-search-signsign.byteimg.com/tos-cn-i-6w9my0ksvp/cfb2a12ce6fc4daea799fa1d8a1d1bdf~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1776841077&x-signature=N4Om04R6YTvmd5611ieEV0%2FtKEg%3D')",
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            }
+            .bg-texture {
+                background-color: #F5F5DC;
+                background-image: 
+                    linear-gradient(rgba(255, 255, 255, 0.3) 2px, transparent 2px),
+                    linear-gradient(90deg, rgba(255, 255, 255, 0.3) 2px, transparent 2px),
+                    linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+                background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+                background-position: center center;
+            }
+            .scroll-reveal {
+                opacity: 0;
+                transform: translateY(20px);
+                transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            }
+            .scroll-reveal.active {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            .book-card {
+                transition: all 0.3s ease;
+            }
+            .book-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            }
+        }
+    </style>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', 'Noto Serif SC', sans-serif;
+            background-color: #F5F5DC;
+        }
+        
+        .chinese-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%232d5d3b' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        .timeline-container {
+            position: relative;
+        }
+        
+        .timeline-container::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: #2D5D3B;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+        }
+        
+        .timeline-item {
+            position: relative;
+            width: 50%;
+            padding: 10px 40px;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #F5F5DC;
+            border: 4px solid #8B5A2B;
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        
+        .timeline-left {
+            left: 0;
+        }
+        
+        .timeline-right {
+            left: 50%;
+        }
+        
+        .timeline-left::after {
+            right: -14px;
+        }
+        
+        .timeline-right::after {
+            left: -14px;
+        }
+        
+        @media screen and (max-width: 768px) {
+            .timeline-container::after {
+                left: 31px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            
+            .timeline-item::after {
+                left: 17px;
+            }
+            
+            .timeline-left, .timeline-right {
+                left: 0;
+            }
+        }
+    </style>
+</head>
+<body class="chinese-pattern">
+    <!-- 页面头部 -->
+    <header class="relative bg-primary text-light py-16 overflow-hidden">
+        <div class="absolute inset-0 opacity-10">
+            <img src="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/code_assistant/90ec482d458c47a1ae8e12d110ae457d~tplv-a9rns2rl98-image.image?rcl=2025102415365310385D1013E0DF53140D&amp;rk3s=8e244e95&amp;rrcfp=2609e108&amp;x-expires=1761896217&amp;x-signature=%2FoltFfI7TR0IhdLihFOMP5Gi%2BHA%3D" alt="中医知识图谱" class="w-full h-full object-cover">
+        </div>
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <div class="mb-8 md:mb-0">
+                    <h1 class="text-4xl md:text-5xl font-serif font-bold mb-4 text-shadow">中医知识问答大模型</h1>
+                    <p class="text-xl md:text-2xl font-light max-w-2xl">通过收集中医书籍，构建知识图谱，打造中医理论和知识的专门AI大模型</p>
+                </div>
+                <div class="w-32 h-32 md:w-48 md:h-48 rounded-full overflow-hidden border-4 border-light">
+                    <img src="https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/code_assistant/6c5480e9d03141fb9cfe012e0d09d244~tplv-a9rns2rl98-image.image?rcl=2025102415362476EB835FDE7485735C6D&amp;rk3s=8e244e95&amp;rrcfp=2609e108&amp;x-expires=1761896188&amp;x-signature=tBfHwEGeKJpfBSlbNbLKJNEb1Ks%3D" alt="中医元素" class="w-full h-full object-cover">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 项目简介 -->
+    <section class="py-12 bg-light">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-serif font-bold text-primary mb-4">项目简介</h2>
+                <div class="w-24 h-1 bg-secondary mx-auto"></div>
+            </div>
+            
+            <div class="max-w-3xl mx-auto bg-white rounded-lg shadow-lg p-8 border-l-4 border-primary">
+                <p class="text-gray-700 leading-relaxed">
+                    本项目旨在构建一个专门针对中医理论和知识的问答大模型。通过系统收集中医经典书籍、现代教材和临床经验，建立全面的中医知识图谱，
+                    为AI模型提供坚实的知识基础。项目将分阶段进行，目前已完成第一阶段的中医书籍收集工作，为后续知识图谱构建和模型训练奠定基础。
+                </p>
+                <div class="mt-6 pt-6 border-t border-gray-200">
+                    <p class="text-gray-600">
+                        <span class="font-bold">学号：</span>2212222<br>
+                        <span class="font-bold">姓名：</span>卢厚任
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 技术路线 -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-serif font-bold text-primary mb-4">技术路线</h2>
+                <div class="w-24 h-1 bg-secondary mx-auto"></div>
+            </div>
+            
+            <div class="timeline-container max-w-4xl mx-auto">
+                <div class="timeline-item timeline-left scroll-reveal">
+                    <div class="bg-light p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-bold text-primary mb-2">阶段一：中医书籍收集</h3>
+                        <p class="text-gray-700">系统收集中医经典著作、现代教材、临床经验等各类中医文献资料</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item timeline-right scroll-reveal" data-delay="200">
+                    <div class="bg-light p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-bold text-primary mb-2">阶段二：知识图谱构建</h3>
+                        <p class="text-gray-700">对收集的中医文献进行结构化处理，构建中医领域知识图谱</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item timeline-left scroll-reveal" data-delay="400">
+                    <div class="bg-light p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-bold text-primary mb-2">阶段三：模型训练</h3>
+                        <p class="text-gray-700">基于中医知识图谱，训练专门的中医知识问答大模型</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item timeline-right scroll-reveal" data-delay="600">
+                    <div class="bg-light p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-bold text-primary mb-2">阶段四：系统部署</h3>
+                        <p class="text-gray-700">将训练好的模型部署为可用的中医知识问答系统</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 周进展 -->
+    <section class="py-12 bg-texture">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-serif font-bold text-primary mb-4">周进展</h2>
+                <div class="w-24 h-1 bg-secondary mx-auto"></div>
+                
+                <!-- 周数选择器 -->
+                <div class="mt-6 flex justify-center">
+                    <div class="inline-flex rounded-md shadow-sm" role="group">
+                        <button type="button" id="week1Btn" class="px-4 py-2 text-sm font-medium text-white bg-primary rounded-l-lg hover:bg-opacity-90">
+                            第一周
+                        </button>
+                        <button type="button" id="week2Btn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border-t border-b hover:bg-gray-100">
+                            第二周
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 第一周内容 -->
+            <div id="week1Content" class="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-8">
+                <div class="flex items-center mb-6">
+                    <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white text-xl">
+                        <i class="fa fa-book"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-primary ml-4">中医书籍收集完成</h3>
+                </div>
+                
+                <p class="text-gray-700 mb-6">
+                    本周已完成中医书籍的收集工作，共计收集各类中医书籍1000GB+，涵盖经典著作、现代教材、临床经验等多个类别，为后续知识图谱构建提供了丰富的原始资料。
+                </p>
+                
+                <div class="bg-light p-4 rounded-lg border-l-4 border-secondary">
+                    <h4 class="font-bold text-secondary mb-2">收集成果</h4>
+                    <p class="text-gray-700">
+                        <span class="font-bold">总量：</span>1000GB+ 中医文献资料<br>
+                        <span class="font-bold">类别：</span>15个主要类别，2600+册电子书
+                    </p>
+                </div>
+                <p class="mt-4 text-gray-500 text-sm">更新时间：2025年10月24日</p>
+            </div>
+            
+            <!-- 第二周内容 -->
+            <div id="week2Content" class="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-8 hidden">
+                <div class="flex items-center mb-6">
+                    <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white text-xl">
+                        <i class="fa fa-flask"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-primary ml-4">中医古籍命名实体识别（NER）系统</h3>
+                </div>
+                
+                <div class="mb-6">
+                    <h4 class="text-xl font-bold text-secondary mb-3">项目背景与核心成果展示</h4>
+                    <p class="text-gray-700 mb-4">
+                        <span class="font-bold">项目目标：</span>旨在整合海量中医古籍文本知识，构建结构化的中医知识图谱，并最终以此图谱数据为核心，训练一个专门的中医知识体系大模型。
+                    </p>
+                    <p class="text-gray-700 mb-4">
+                        <span class="font-bold">当前阶段核心成果：</span>
+                    </p>
+                    <ul class="list-disc list-inside text-gray-700 pl-4 space-y-2">
+                        <li>成功完成测试集 NER 任务：成功处理了 <span class="font-bold">10 本核心古籍</span>的测试集，总计 <span class="font-bold">5128 个文本块</span>。</li>
+                        <li>高质量数据集产出：最终产出 <span class="font-bold">63,078 个实体</span>的结构化数据，并已汇总保存至 <span class="font-bold">`ALL_BOOKS_NER_RESULTS_MINIMAX.json`</span> 文件，标志着知识图谱构建迈出实质性一步。</li>
+                    </ul>
+                    
+                    <!-- 图片展示区域 -->
+                    <div class="mt-6 bg-light p-4 rounded-lg border border-gray-200">
+                        <h5 class="font-bold text-secondary mb-3">项目运行截图</h5>
+                        <div class="bg-white p-4 rounded shadow-sm flex justify-center">
+                            <img src="images/result.png" alt="NER系统处理中医古籍文本的界面展示" class="w-full max-w-2xl h-64 object-contain rounded">
+                        </div>
+                        <p class="text-gray-600 text-sm mt-3 text-center">
+                            图：NER系统处理中医古籍文本的界面展示
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- 第二周资源获取 -->
+                <div class="mb-6">
+                    <h4 class="text-xl font-bold text-secondary mb-3">资源获取</h4>
+                    <div class="bg-light p-6 rounded-lg">
+                        <p class="text-gray-700 mb-4">
+                            第二周项目相关资源已上传至百度网盘，可通过以下链接获取：
+                        </p>
+                        <div class="bg-white p-4 rounded border border-gray-300 font-mono text-sm">
+                            <p class="text-gray-800">【超级会员V4】我通过百度网盘分享的文件：第二周</p>
+                            <p class="text-blue-600 mt-2">链接：https://pan.baidu.com/s/1nF0nI8rImFgeDgvCLmVXJg?pwd=e89k</p>
+                            <p class="text-gray-800 mt-2">提取码：e89k</p>
+                            <p class="text-gray-600 mt-2">复制这段内容打开「百度网盘APP即可获取」</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <h4 class="text-xl font-bold text-secondary mb-3">代码核心功能与技术突破（技术支撑）</h4>
+                    <p class="text-gray-700 mb-4">
+                        代码成功地将功能实现（NER）与工程优化（并行化、健壮性）结合，完成了测试任务，并奠定了大规模处理的基础。
+                    </p>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-white">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="py-2 px-4 border-b text-left">技术/API</th>
+                                    <th class="py-2 px-4 border-b text-left">目的</th>
+                                    <th class="py-2 px-4 border-b text-left">在当前阶段的意义</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="py-2 px-4 border-b font-medium">MiniMax-M2 (通过 OpenAI SDK)</td>
+                                    <td class="py-2 px-4 border-b">NER 核心计算引擎</td>
+                                    <td class="py-2 px-4 border-b">通过该模型验证了古籍文本 NER 的可行性，并成功获得了 63,078 个实体的初始数据</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 px-4 border-b font-medium">JSON 健壮解析 (关键突破)</td>
+                                    <td class="py-2 px-4 border-b">数据清洁与格式化</td>
+                                    <td class="py-2 px-4 border-b">克服了 MiniMax API 响应中非标准文本（如 `<escapeShell ` 标签）的污染，保证了产出 63,078 个实体的 JSON 格式 100% 纯净可用</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 px-4 border-b font-medium">并行处理与 `tenacity`</td>
+                                    <td class="py-2 px-4 border-b">高效率与容错能力</td>
+                                    <td class="py-2 px-4 border-b">流程在 54 分 13 秒内完成了 5128 个文本块的处理，验证了并行处理的有效性和流程的健壮性</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 px-4 border-b font-medium">数据映射与归档</td>
+                                    <td class="py-2 px-4 border-b">数据可溯源性</td>
+                                    <td class="py-2 px-4 border-b">成功将每一个识别出的实体（共 63,078 个）精确地关联到其来源文件和原始文本块，确保了数据的质量和可回溯性</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <h4 class="text-xl font-bold text-secondary mb-3">当前瓶颈与下一步科研计划</h4>
+                    <p class="text-gray-700 mb-4">
+                        尽管测试集处理已圆满完成，但当前的核心挑战是将成功经验扩展到完整的古籍库。
+                    </p>
+                    
+                    <div class="mb-4">
+                        <h5 class="font-bold text-gray-800 mb-2">1. 当前瓶颈：</h5>
+                        <ul class="list-disc list-inside text-gray-700 pl-4 space-y-2">
+                            <li><span class="font-bold">计算性能限制（规模化瓶颈）：</span>本地电脑性能无法支持对剩余的 700+ 本古籍（预估超过 40 万文本块）进行高效处理。</li>
+                            <li><span class="font-bold">速度与成本平衡：</span>在有限的本地资源下运行大规模任务，时间成本和资源稳定性风险极高。</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h5 class="font-bold text-gray-800 mb-2">2. 下一步科研计划（服务器部署）：</h5>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full bg-white">
+                                <thead class="bg-gray-100">
+                                    <tr>
+                                        <th class="py-2 px-4 border-b text-left">计划步骤</th>
+                                        <th class="py-2 px-4 border-b text-left">目标</th>
+                                        <th class="py-2 px-4 border-b text-left">预期效果</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="py-2 px-4 border-b font-medium">租用高性能服务器</td>
+                                        <td class="py-2 px-4 border-b">获取具备高带宽和稳定性的专业计算资源</td>
+                                        <td class="py-2 px-4 border-b">解决本地性能瓶颈，确保 API 调用在高并发下稳定运行</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4 border-b font-medium">部署并行化代码</td>
+                                        <td class="py-2 px-4 border-b">将现有的、已验证成功的代码和环境迁移至服务器</td>
+                                        <td class="py-2 px-4 border-b">充分发挥并行化优势，将总处理时间从不可接受的数周缩短至小时级</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4 border-b font-medium">大规模数据处理</td>
+                                        <td class="py-2 px-4 border-b">全面启动对 700+ 本古籍的 NER 任务</td>
+                                        <td class="py-2 px-4 border-b">完成所有 40 万文本块的处理，产出完整的、百万级规模的中医实体数据集</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-light p-4 rounded-lg border-l-4 border-secondary">
+                    <h4 class="font-bold text-secondary mb-2">总结与价值展望</h4>
+                    <p class="text-gray-700">
+                        已成功验证了 NER 流程，并产出了 63,078 个实体的初始数据集。下一步，通过资源升级，将迅速完成大规模数据采集，标志着项目正式进入知识图谱构建和模型训练阶段，为最终训练出拥有丰富中医知识体系的大模型打下坚实的基础。
+                    </p>
+                </div>
+                <p class="mt-4 text-gray-500 text-sm">更新时间：2025年10月31日</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 收集的医书列表 - 第一周内容 -->
+    <section id="week1BooksList" class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-serif font-bold text-primary mb-4">收集的医书列表</h2>
+                <div class="w-24 h-1 bg-secondary mx-auto"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- 医书卡片 -->
+                <div class="book-card bg-light rounded-lg overflow-hidden shadow-md border-t-4 border-primary">
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white">
+                                <span class="font-bold">000</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-800 ml-3">中国百年百名中医临床家丛书</h3>
+                        </div>
+                        <p class="text-gray-600">全112册，收录了近现代著名中医临床家的学术经验和临床心得</p>
+                    </div>
+                </div>
+                
+                <div class="book-card bg-light rounded-lg overflow-hidden shadow-md border-t-4 border-primary">
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white">
+                                <span class="font-bold">001</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-800 ml-3">中医各版教材+丛书</h3>
+                        </div>
+                        <p class="text-gray-600">包含多个版本的中医教材和相关丛书，系统介绍中医基础理论</p>
+                    </div>
+                </div>
+                
+                <div class="book-card bg-light rounded-lg overflow-hidden shadow-md border-t-4 border-primary">
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white">
+                                <span class="font-bold">002</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-800 ml-3">经典类</h3>
+                        </div>
+                        <p class="text-gray-600">中医经典著作，包括《黄帝内经》、《伤寒论》、《金匮要略》等</p>
+                    </div>
+                </div>
+                
+                <div class="book-card bg-light rounded-lg overflow-hidden shadow-md border-t-4 border-primary">
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white">
+                                <span class="font-bold">003</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-800 ml-3">本草类</h3>
+                        </div>
+                        <p class="text-gray-600">中药相关著作，包括《本草纲目》、《神农本草经》等</p>
+                    </div>
+                </div>
+                
+                <div class="book-card bg-light rounded-lg overflow-hidden shadow-md border-t-4 border-primary">
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white">
+                                <span class="font-bold">004</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-800 ml-3">临床各科</h3>
+                        </div>
+                        <p class="text-gray-600">中医临床各科的诊断与治疗方法，包括内科、外科、妇科、儿科等</p>
+                    </div>
+                </div>
+                
+                <div class="book-card bg-light rounded-lg overflow-hidden shadow-md border-t-4 border-primary">
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white">
+                                <span class="font-bold">005</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-800 ml-3">医案</h3>
+                        </div>
+                        <p class="text-gray-600">历代名医临床经验案例，记录了各种疾病的诊断与治疗过程</p>
+                    </div>
+                </div>
+                
+                <div class="book-card bg-light rounded-lg overflow-hidden shadow-md border-t-4 border-primary">
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white">
+                                <span class="font-bold">006</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-800 ml-3">经验（治验）</h3>
+                        </div>
+                        <p class="text-gray-600">中医临床经验总结，包括各种疾病的治疗方法和心得体会</p>
+                    </div>
+                </div>
+                
+                <div class="book-card bg-light rounded-lg overflow-hidden shadow-md border-t-4 border-primary">
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white">
+                                <span class="font-bold">007</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-800 ml-3">医论（医话）</h3>
+                        </div>
+                        <p class="text-gray-600">中医理论探讨和学术见解，反映了中医理论的发展和演变</p>
+                    </div>
+                </div>
+                
+                <div class="book-card bg-light rounded-lg overflow-hidden shadow-md border-t-4 border-primary">
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white">
+                                <span class="font-bold">008</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-800 ml-3">医集（全书）</h3>
+                        </div>
+                        <p class="text-gray-600">综合性医学著作集，收录了多位医家的学术成果和临床经验</p>
+                    </div>
+                </div>
+                
+                <div class="book-card bg-light rounded-lg overflow-hidden shadow-md border-t-4 border-primary">
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white">
+                                <span class="font-bold">009</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-800 ml-3">工具书（参考书）</h3>
+                        </div>
+                        <p class="text-gray-600">中医参考工具书，包括字典、词典、百科全书等</p>
+                    </div>
+                </div>
+                
+                <div class="book-card bg-light rounded-lg overflow-hidden shadow-md border-t-4 border-primary">
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white">
+                                <span class="font-bold">010</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-800 ml-3">丛书（系列）</h3>
+                        </div>
+                        <p class="text-gray-600">中医系列丛书，系统介绍中医理论和临床实践</p>
+                    </div>
+                </div>
+                
+                <div class="book-card bg-light rounded-lg overflow-hidden shadow-md border-t-4 border-primary">
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white">
+                                <span class="font-bold">011</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-800 ml-3">外治</h3>
+                        </div>
+                        <p class="text-gray-600">中医外治疗法，包括针灸、推拿、艾灸等非药物治疗方法</p>
+                    </div>
+                </div>
+                
+                <div class="book-card bg-light rounded-lg overflow-hidden shadow-md border-t-4 border-primary">
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white">
+                                <span class="font-bold">012</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-800 ml-3">医学考证类</h3>
+                        </div>
+                        <p class="text-gray-600">中医文献考证和学术研究，探讨中医理论的历史演变</p>
+                    </div>
+                </div>
+                
+                <div class="book-card bg-light rounded-lg overflow-hidden shadow-md border-t-4 border-primary">
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white">
+                                <span class="font-bold">013</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-800 ml-3">中医教材电子书+精典收藏古籍</h3>
+                        </div>
+                        <p class="text-gray-600">2600+册中医教材电子书和经典收藏古籍，涵盖中医各个领域</p>
+                    </div>
+                </div>
+                
+                <div class="book-card bg-light rounded-lg overflow-hidden shadow-md border-t-4 border-primary">
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white">
+                                <span class="font-bold">014</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-800 ml-3">中医十四五规划教材</h3>
+                        </div>
+                        <p class="text-gray-600">最新的中医十四五规划教材，反映了当前中医教育的最新内容</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 网盘链接 - 第一周内容 -->
+    <section id="week1Resource" class="py-12 bg-texture">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-serif font-bold text-primary mb-4">资源获取</h2>
+                <div class="w-24 h-1 bg-secondary mx-auto"></div>
+            </div>
+            
+            <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-8 border-t-4 border-secondary">
+                <div class="flex items-center mb-6">
+                    <div class="w-12 h-12 bg-secondary rounded-full flex items-center justify-center text-white text-xl">
+                        <i class="fa fa-cloud"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-secondary ml-4">百度网盘资源</h3>
+                </div>
+                
+                <div class="bg-light p-6 rounded-lg mb-6">
+                    <p class="text-gray-700 mb-4">
+                        所有收集的中医书籍资源已上传至百度网盘，可通过以下链接获取：
+                    </p>
+                    <div class="bg-white p-4 rounded border border-gray-300 font-mono text-sm">
+                        <p class="text-gray-800">【超级会员V4】我通过百度网盘分享的文件：中医</p>
+                        <p class="text-blue-600 mt-2">链接：https://pan.baidu.com/s/1vbyrN7EbGOKYddYwWuj8mg</p>
+                        <p class="text-gray-800 mt-2">提取码：7gB3</p>
+                        <p class="text-gray-600 mt-2">复制这段内容打开「百度网盘APP即可获取」</p>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <button id="copyBtn" class="bg-secondary hover:bg-opacity-90 text-white font-bold py-2 px-6 rounded-lg transition duration-300 flex items-center mx-auto">
+                        <i class="fa fa-copy mr-2"></i> 复制链接和提取码
+                    </button>
+                    <p id="copySuccess" class="text-green-600 mt-2 hidden">复制成功！</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 当前工作方向 - 第一周内容 -->
+    <section id="week1WorkDirection" class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-serif font-bold text-primary mb-4">当前工作方向</h2>
+                <div class="w-24 h-1 bg-secondary mx-auto"></div>
+            </div>
+            
+            <div class="max-w-4xl mx-auto bg-light p-8 rounded-lg shadow-md border-t-4 border-primary">
+                <p class="text-gray-700 mb-6">
+                    在完成中医书籍收集工作后，我目前正专注于知识图谱构建阶段。这一阶段的核心是将海量的中医文献转化为结构化的知识网络，实现从"文档库"到"知识网"的转变。
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h4 class="font-bold text-secondary mb-3 flex items-center">
+                            <i class="fa fa-sitemap mr-2"></i>知识建模
+                        </h4>
+                        <p class="text-gray-700">
+                            定义中医领域的核心实体（如中药、方剂、病症等）及其关系，建立知识图谱的基本框架。
+                        </p>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h4 class="font-bold text-secondary mb-3 flex items-center">
+                            <i class="fa fa-database mr-2"></i>数据处理
+                        </h4>
+                        <p class="text-gray-700">
+                            对收集的中医文献进行清洗、标注和结构化处理，为后续AI信息抽取做准备。
+                        </p>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h4 class="font-bold text-secondary mb-3 flex items-center">
+                            <i class="fa fa-code-fork mr-2"></i>AI信息抽取
+                        </h4>
+                        <p class="text-gray-700">
+                            利用自然语言处理技术，从中医文本中自动抽取实体、关系和属性信息。
+                        </p>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h4 class="font-bold text-secondary mb-3 flex items-center">
+                            <i class="fa fa-cubes mr-2"></i>知识存储
+                        </h4>
+                        <p class="text-gray-700">
+                            将抽取的知识存入图数据库，构建中医知识图谱，为后续模型训练提供支持。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-primary text-light py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h3 class="text-xl font-bold mb-2">中医知识问答大模型</h3>
+                    <p class="text-light opacity-80">构建中医理论和知识的专门AI大模型</p>
+                </div>
+                
+                <div class="flex items-center">
+                    <p class="text-light opacity-80">© 2025 科研进展展示</p>
+                    <p class="text-light opacity-80 ml-4">学号：2212222 卢厚任</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // 滚动显示动画
+        document.addEventListener('DOMContentLoaded', function() {
+            const scrollRevealElements = document.querySelectorAll('.scroll-reveal');
+            
+            function checkScroll() {
+                scrollRevealElements.forEach(element => {
+                    const elementTop = element.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    const delay = element.getAttribute('data-delay') || 0;
+                    
+                    if (elementTop < windowHeight - 100) {
+                        setTimeout(() => {
+                            element.classList.add('active');
+                        }, delay);
+                    }
+                });
+            }
+            
+            // 初始检查
+            checkScroll();
+            
+            // 滚动时检查
+            window.addEventListener('scroll', checkScroll);
+            
+            // 复制链接功能
+            const copyBtn = document.getElementById('copyBtn');
+            const copySuccess = document.getElementById('copySuccess');
+            
+            copyBtn.addEventListener('click', function() {
+                const textToCopy = `【超级会员V4】我通过百度网盘分享的文件：中医
+链接：https://pan.baidu.com/s/1vbyrN7EbGOKYddYwWuj8mg
+提取码：7gB3
+复制这段内容打开「百度网盘APP即可获取」`;
+                
+                navigator.clipboard.writeText(textToCopy)
+                    .then(() => {
+                        copySuccess.classList.remove('hidden');
+                        setTimeout(() => {
+                            copySuccess.classList.add('hidden');
+                        }, 3000);
+                    })
+                    .catch(err => {
+                        console.error('无法复制文本: ', err);
+                    });
+            });
+            
+            // 周数切换功能
+            const week1Btn = document.getElementById('week1Btn');
+            const week2Btn = document.getElementById('week2Btn');
+            const week1Content = document.getElementById('week1Content');
+            const week2Content = document.getElementById('week2Content');
+            const week1BooksList = document.getElementById('week1BooksList');
+            const week1Resource = document.getElementById('week1Resource');
+            const week1WorkDirection = document.getElementById('week1WorkDirection');
+            
+            // 第一周内容数组
+            const week1Elements = [
+                week1Content,
+                week1BooksList,
+                week1Resource,
+                week1WorkDirection
+            ];
+            
+            week1Btn.addEventListener('click', function() {
+                // 更新按钮样式
+                week1Btn.classList.remove('text-gray-700', 'bg-white');
+                week1Btn.classList.add('text-white', 'bg-primary');
+                week2Btn.classList.remove('text-white', 'bg-primary', 'rounded-r-lg');
+                week2Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
+                
+                // 显示第一周内容，隐藏第二周内容
+                week1Elements.forEach(element => {
+                    element.classList.remove('hidden');
+                });
+                week2Content.classList.add('hidden');
+            });
+            
+            week2Btn.addEventListener('click', function() {
+                // 更新按钮样式
+                week2Btn.classList.remove('text-gray-700', 'bg-white', 'border-t', 'border-b');
+                week2Btn.classList.add('text-white', 'bg-primary', 'rounded-r-lg');
+                week1Btn.classList.remove('text-white', 'bg-primary');
+                week1Btn.classList.add('text-gray-700', 'bg-white');
+                
+                // 显示第二周内容，隐藏第一周内容
+                week1Elements.forEach(element => {
+                    element.classList.add('hidden');
+                });
+                week2Content.classList.remove('hidden');
+            });
+        });
+    </script>
+
+
+
+</body></html>
