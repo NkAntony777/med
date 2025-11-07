@@ -183,7 +183,6 @@
                     </p>
                 </div>
             </div>
-        </div>
     </section>
 
     <!-- 技术路线 -->
@@ -223,7 +222,6 @@
                     </div>
                 </div>
             </div>
-        </div>
     </section>
 
     <!-- 周进展 -->
@@ -241,6 +239,9 @@
                         </button>
                         <button type="button" id="week2Btn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border-t border-b hover:bg-gray-100">
                             第二周
+                        </button>
+                        <button type="button" id="week3Btn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border-t border-b border-r hover:bg-gray-100">
+                            第三周
                         </button>
                     </div>
                 </div>
@@ -414,7 +415,85 @@
                 </div>
                 <p class="mt-4 text-gray-500 text-sm">更新时间：2025年10月31日</p>
             </div>
-        </div>
+            
+            <!-- 第三周内容 -->
+            <div id="week3Content" class="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-8 hidden">
+                <div class="flex items-center mb-6">
+                    <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white text-xl">
+                        <i class="fa fa-sitemap"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-primary ml-4">中医知识图谱构建取得关键突破</h3>
+                </div>
+                
+                <div class="bg-green-50 border-l-4 border-green-500 p-4 mb-6">
+                    <p class="text-gray-700 font-bold">
+                        <i class="fa fa-lightbulb-o text-yellow-500 mr-2"></i>
+                        核心成果：大规模中医文本实体识别任务圆满完成
+                    </p>
+                </div>
+                
+                <p class="text-gray-700 mb-6">
+                    本周完成了中医古籍与文献的NER（命名实体识别）批量处理工作，为知识图谱构建奠定了核心数据基础。通过自主编写的自动化脚本，调用Minimax API对701份中医文本文件进行深度解析，历经69小时的高效运算，成功识别并提取出<span class="font-bold text-primary">5,777,352个有效实体</span>。
+                </p>
+                
+                <div class="mb-6">
+                    <h4 class="text-xl font-bold text-secondary mb-3">技术亮点</h4>
+                    <ul class="list-disc list-inside text-gray-700 space-y-2">
+                        <li><span class="font-bold">处理规模：</span>总计429,936个文本块，平均处理速度1.72块/秒，生成约5GB结构化JSON数据</li>
+                        <li><span class="font-bold">模型选择：</span>采用Minimax大语言模型API，精准识别中医专属实体（如证候、经络、方药、穴位等）</li>
+                        <li><span class="font-bold">工程实现：</span>全自动化脚本pipeline，稳定运行无中断，最终输出文件<code class="bg-gray-100 px-2 py-1 rounded">ALL_BOOKS_NER_RESULTS_MINIMAX.json</code></li>
+                    </ul>
+                </div>
+                
+                <div class="bg-light p-4 rounded-lg border-l-4 border-secondary">
+                    <h4 class="font-bold text-secondary mb-2">总结与价值展望</h4>
+                    <p class="text-gray-700">
+                        这标志着知识图谱项目从原始文本处理正式转入<span class="font-bold">知识抽取与图谱结构生成</span>阶段。下一步将对500万+实体进行关系抽取、消歧融合与本体建模，逐步构建可检索、可推理的智能化中医知识体系。
+                    </p>
+                </div>
+                
+                <!-- 图片展示区域 -->
+                <div class="mt-6 bg-light p-4 rounded-lg border border-gray-200">
+                    <h5 class="font-bold text-secondary mb-3">项目运行截图</h5>
+                    <div class="bg-white p-4 rounded shadow-sm flex justify-center">
+                        <img src="images/third.jpg" alt="中医知识图谱构建过程展示" class="w-full max-w-2xl h-64 object-contain rounded">
+                    </div>
+                    <p class="text-gray-600 text-sm mt-3 text-center">
+                        图：中医知识图谱构建过程中的实体关系可视化展示
+                    </p>
+                </div>
+                
+                <!-- 第三周资源获取 -->
+                <div class="mt-6">
+                    <h4 class="text-xl font-bold text-secondary mb-3">资源获取</h4>
+                    <div class="bg-light p-6 rounded-lg">
+                        <p class="text-gray-700 mb-4">
+                            第三周项目相关资源已上传至百度网盘，可通过以下链接获取：
+                        </p>
+                        <div class="bg-white p-4 rounded border border-gray-300 font-mono text-sm">
+                            <p class="text-gray-800">通过网盘分享的文件：ALL_BOOKS_NER_RESULTS_MINIMAX.json</p>
+                            <p class="text-gray-800 mt-1">链接：https://pan.baidu.com/s/16ccG9oO_QGQjigfGh9Z3UQ?pwd=8d93</p>
+                            <p class="text-gray-800 mt-1">提取码：8d93</p>
+                            <p class="text-gray-800 mt-1">--来自百度网盘超级会员v4的分享</p>
+                        </div>
+                        <p class="text-gray-600 text-sm mt-3">
+                            注：包含中医古籍命名实体识别结果的完整JSON数据文件。
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="mt-6">
+                    <h4 class="text-xl font-bold text-secondary mb-3">下一步计划</h4>
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <p class="text-gray-700">
+                            <i class="fa fa-arrow-circle-right text-blue-500 mr-2"></i>
+                            进行数据清洗和归一化处理，为实体关系抽取和知识图谱构建做准备
+                        </p>
+                    </div>
+                </div>
+                
+                <p class="mt-4 text-gray-500 text-sm">更新时间：2025年11月7日</p>
+            </div>
     </section>
 
     <!-- 收集的医书列表 - 第一周内容 -->
@@ -607,7 +686,6 @@
                     </div>
                 </div>
             </div>
-        </div>
     </section>
 
     <!-- 网盘链接 - 第一周内容 -->
@@ -645,7 +723,6 @@
                     <p id="copySuccess" class="text-green-600 mt-2 hidden">复制成功！</p>
                 </div>
             </div>
-        </div>
     </section>
 
     <!-- 当前工作方向 - 第一周内容 -->
@@ -699,7 +776,6 @@
                     </div>
                 </div>
             </div>
-        </div>
     </section>
 
     <!-- 页脚 -->
@@ -772,6 +848,7 @@
             const week2Btn = document.getElementById('week2Btn');
             const week1Content = document.getElementById('week1Content');
             const week2Content = document.getElementById('week2Content');
+            const week3Content = document.getElementById('week3Content');
             const week1BooksList = document.getElementById('week1BooksList');
             const week1Resource = document.getElementById('week1Resource');
             const week1WorkDirection = document.getElementById('week1WorkDirection');
@@ -801,15 +878,35 @@
             week2Btn.addEventListener('click', function() {
                 // 更新按钮样式
                 week2Btn.classList.remove('text-gray-700', 'bg-white', 'border-t', 'border-b');
-                week2Btn.classList.add('text-white', 'bg-primary', 'rounded-r-lg');
+                week2Btn.classList.add('text-white', 'bg-primary');
                 week1Btn.classList.remove('text-white', 'bg-primary');
                 week1Btn.classList.add('text-gray-700', 'bg-white');
+                week3Btn.classList.remove('text-white', 'bg-primary', 'rounded-r-lg');
+                week3Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
                 
-                // 显示第二周内容，隐藏第一周内容
+                // 显示第二周内容，隐藏第一周和第三周内容
                 week1Elements.forEach(element => {
                     element.classList.add('hidden');
                 });
                 week2Content.classList.remove('hidden');
+                week3Content.classList.add('hidden');
+            });
+            
+            week3Btn.addEventListener('click', function() {
+                // 更新按钮样式
+                week3Btn.classList.remove('text-gray-700', 'bg-white', 'border-t', 'border-b');
+                week3Btn.classList.add('text-white', 'bg-primary', 'rounded-r-lg');
+                week1Btn.classList.remove('text-white', 'bg-primary');
+                week1Btn.classList.add('text-gray-700', 'bg-white');
+                week2Btn.classList.remove('text-white', 'bg-primary');
+                week2Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
+                
+                // 显示第三周内容，隐藏第一周和第二周内容
+                week1Elements.forEach(element => {
+                    element.classList.add('hidden');
+                });
+                week2Content.classList.add('hidden');
+                week3Content.classList.remove('hidden');
             });
         });
     </script>
