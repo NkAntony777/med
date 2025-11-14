@@ -240,8 +240,11 @@
                         <button type="button" id="week2Btn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border-t border-b hover:bg-gray-100">
                             第二周
                         </button>
-                        <button type="button" id="week3Btn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border-t border-b border-r hover:bg-gray-100">
+                        <button type="button" id="week3Btn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border-t border-b hover:bg-gray-100">
                             第三周
+                        </button>
+                        <button type="button" id="week4Btn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border-t border-b border-r hover:bg-gray-100">
+                            第四周
                         </button>
                     </div>
                 </div>
@@ -493,6 +496,167 @@
                 </div>
                 
                 <p class="mt-4 text-gray-500 text-sm">更新时间：2025年11月7日</p>
+            </div>
+            
+            <!-- 第四周内容 -->
+            <div id="week4Content" class="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-8 hidden">
+                <div class="flex items-center mb-6">
+                    <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white text-xl">
+                        <i class="fa fa-link"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-primary ml-4">基于大语言模型的中医药知识图谱关系抽取</h3>
+                </div>
+                
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
+                    <p class="text-gray-700 font-bold">
+                        <i class="fa fa-star text-yellow-500 mr-2"></i>
+                        核心概述：本周工作重心为大规模中医药实体关系抽取。基于前几周的技术预研和准备，本周成功搭建并执行了一套高效、自动化的关系抽取流程。
+                    </p>
+                </div>
+                
+                <div class="mb-6">
+                    <h4 class="text-xl font-bold text-secondary mb-3">一、本周详细工作内容</h4>
+                    
+                    <div class="mb-4">
+                        <h5 class="font-bold text-gray-800 mb-2">自动化关系抽取流程实现：</h5>
+                        <p class="text-gray-700">
+                            基于上周规划，编写并完善了核心的Python脚本。该脚本实现了从读取NER（命名实体识别）结果文件、聚合文本片段与实体、动态生成请求（Prompt）、批量调用API到最后解析并存储结果的全自动化流程。
+                        </p>
+                        <p class="text-gray-700 mt-2">
+                            代码中对Minimax API的调用进行了封装，包含了必要的错误处理和网络请求逻辑，确保了大规模调用时的稳定性。
+                        </p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h5 class="font-bold text-gray-800 mb-2">精细化提示词工程（Prompt Engineering）：</h5>
+                        <p class="text-gray-700">
+                            设计并优化了用于关系抽取的Prompt模板。该模板明确指示大模型扮演"中医药学专家"角色，严格规定了待抽取的关系类型（如主治, 组成, 临床表现等）和必须输出的JSON三元组格式。
+                        </p>
+                        <p class="text-gray-700 mt-2">
+                            通过加入"Few-shot"示例，显著提升了模型对任务的理解能力和输出结果的准确性与格式一致性。
+                        </p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h5 class="font-bold text-gray-800 mb-2">大规模并行化抽取执行：</h5>
+                        <p class="text-gray-700">
+                            利用完善后的脚本对整个数据集进行了处理。为提升效率，采用了批处理和并行化的策略，构建并提交了19,433个独立的抽取任务。
+                        </p>
+                        <p class="text-gray-700 mt-2">
+                            整个抽取过程耗时约80小时，平均处理速度达到14.92个任务/秒，充分展现了该技术方案处理大规模数据的能力。
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- 图片展示区域1 -->
+                <div class="mt-6 bg-light p-4 rounded-lg border border-gray-200">
+                    <h5 class="font-bold text-secondary mb-3">自动化关系抽取流程示意图</h5>
+                    <div class="bg-white p-4 rounded shadow-sm flex justify-center">
+                        <img src="images/4.1.png" alt="自动化关系抽取流程示意图" class="w-full max-w-2xl h-64 object-contain rounded">
+                    </div>
+                    <p class="text-gray-600 text-sm mt-3 text-center">
+                        图：自动化关系抽取流程从数据输入到结果输出的完整示意图
+                    </p>
+                </div>
+                
+                <div class="mt-6">
+                    <h4 class="text-xl font-bold text-secondary mb-3">二、本周取得的主要成果</h4>
+                    
+                    <div class="mb-4">
+                        <h5 class="font-bold text-gray-800 mb-2">海量结构化知识产出：</h5>
+                        <p class="text-gray-700">
+                            总计成功抽取了 <span class="font-bold text-primary">213,088 个关系三元组</span>。这是本次研究至今最核心的数据资产，将直接用于后续知识图谱的构建。
+                        </p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h5 class="font-bold text-gray-800 mb-2">标准化数据集构建：</h5>
+                        <p class="text-gray-700">
+                            所有抽取出的三元组均已按照{head, relation, tail}的结构进行组织，并统一保存为 <code class="bg-gray-100 px-2 py-1 rounded">knowledge_graph_triplets_no_norm_batched.json</code> 和 <code class="bg-gray-100 px-2 py-1 rounded">knowledge_graph_triplets_no_norm_batched.csv</code> 两种格式，便于后续的数据分析、清洗和导入图数据库。
+                        </p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h5 class="font-bold text-gray-800 mb-2">技术路径验证成功：</h5>
+                        <p class="text-gray-700">
+                            成功验证了<span class="font-bold">"NER预标注 + 大语言模型进行关系抽取"</span>这一技术路径的可行性与高效性。实践证明，此方法能够以较低的人工成本，快速从海量非结构化文本中获取高质量的结构化知识。
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- 图片展示区域2 -->
+                <div class="mt-6 bg-light p-4 rounded-lg border border-gray-200">
+                    <h5 class="font-bold text-secondary mb-3">关系抽取结果示例</h5>
+                    <div class="bg-white p-4 rounded shadow-sm flex justify-center">
+                        <img src="images/4.2.png" alt="关系抽取结果示例" class="w-full max-w-2xl h-64 object-contain rounded">
+                    </div>
+                    <p class="text-gray-600 text-sm mt-3 text-center">
+                        图：中医药知识图谱关系三元组示例及统计分布
+                    </p>
+                </div>
+                
+                <div class="mt-6">
+                    <h4 class="text-xl font-bold text-secondary mb-3">三、遇到的问题及解决方案</h4>
+                    
+                    <div class="bg-light p-4 rounded-lg">
+                        <p class="text-gray-700 font-bold mb-2">问题：</p>
+                        <p class="text-gray-700 mb-3">
+                            在进行大规模API调用时，如何保证效率和稳定性，避免因单点失败导致整个任务中断？
+                        </p>
+                        <p class="text-gray-700 font-bold mb-2">解决方案：</p>
+                        <p class="text-gray-700">
+                            在脚本中设计了批处理机制，将任务分块提交。同时，对API调用函数加入了异常捕获和日志记录，确保即使部分请求失败，也不会影响整体任务的继续执行。截图中的[2/3] 构建并提交任务和[3/3] 收集API结果两个阶段，正是这一稳定机制的体现。
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="mt-6">
+                    <h4 class="text-xl font-bold text-secondary mb-3">四、下周工作计划</h4>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h5 class="font-bold text-blue-700 mb-2">数据质量评估与清洗</h5>
+                            <p class="text-gray-700 text-sm">
+                                对抽取出的21万条关系三元组进行初步的质量评估，通过人工抽样审查和制定自动化清洗规则，剔除可能存在的低质量或错误的关系。
+                            </p>
+                        </div>
+                        
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h5 class="font-bold text-blue-700 mb-2">知识图谱数据导入</h5>
+                            <p class="text-gray-700 text-sm">
+                                筛选一部分高质量的三元组，尝试将其导入图数据库（如 Neo4j），进行知识存储。
+                            </p>
+                        </div>
+                        
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h5 class="font-bold text-blue-700 mb-2">初步图谱构建与可视化</h5>
+                            <p class="text-gray-700 text-sm">
+                                在图数据库中，对已导入的数据进行基本的查询和可视化，初步构建中医药知识图谱的原型。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 第四周资源获取 -->
+                <div class="mt-6">
+                    <h4 class="text-xl font-bold text-secondary mb-3">资源获取</h4>
+                    <div class="bg-light p-6 rounded-lg">
+                        <p class="text-gray-700 mb-4">
+                            第四周项目相关资源已上传至百度网盘，可通过以下链接获取：
+                        </p>
+                        <div class="bg-white p-4 rounded border border-gray-300 font-mono text-sm">
+                            <p class="text-gray-800">通过网盘分享的文件：knowledge_graph_triplets_no_norm_batched.csv等2个文件</p>
+                            <p class="text-gray-800 mt-1">链接：https://pan.baidu.com/s/1qTwBtKXInWkp6CZqh3Sg1A?pwd=t5hj</p>
+                            <p class="text-gray-800 mt-1">提取码：t5hj</p>
+                            <p class="text-gray-800 mt-1">--来自百度网盘超级会员v4的分享</p>
+                        </div>
+                        <p class="text-gray-600 text-sm mt-3">
+                            注：包含中医知识图谱关系三元组的完整JSON和CSV数据文件。
+                        </p>
+                    </div>
+                </div>
+                
+                <p class="mt-4 text-gray-500 text-sm">更新时间：2025年11月14日</p>
             </div>
     </section>
 
@@ -846,9 +1010,12 @@
             // 周数切换功能
             const week1Btn = document.getElementById('week1Btn');
             const week2Btn = document.getElementById('week2Btn');
+            const week3Btn = document.getElementById('week3Btn');
+            const week4Btn = document.getElementById('week4Btn');
             const week1Content = document.getElementById('week1Content');
             const week2Content = document.getElementById('week2Content');
             const week3Content = document.getElementById('week3Content');
+            const week4Content = document.getElementById('week4Content');
             const week1BooksList = document.getElementById('week1BooksList');
             const week1Resource = document.getElementById('week1Resource');
             const week1WorkDirection = document.getElementById('week1WorkDirection');
@@ -895,18 +1062,41 @@
             week3Btn.addEventListener('click', function() {
                 // 更新按钮样式
                 week3Btn.classList.remove('text-gray-700', 'bg-white', 'border-t', 'border-b');
-                week3Btn.classList.add('text-white', 'bg-primary', 'rounded-r-lg');
+                week3Btn.classList.add('text-white', 'bg-primary');
                 week1Btn.classList.remove('text-white', 'bg-primary');
                 week1Btn.classList.add('text-gray-700', 'bg-white');
                 week2Btn.classList.remove('text-white', 'bg-primary');
                 week2Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
+                week4Btn.classList.remove('text-white', 'bg-primary', 'rounded-r-lg');
+                week4Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b', 'border-r');
                 
-                // 显示第三周内容，隐藏第一周和第二周内容
+                // 显示第三周内容，隐藏第一周、第二周和第四周内容
                 week1Elements.forEach(element => {
                     element.classList.add('hidden');
                 });
                 week2Content.classList.add('hidden');
                 week3Content.classList.remove('hidden');
+                week4Content.classList.add('hidden');
+            });
+            
+            week4Btn.addEventListener('click', function() {
+                // 更新按钮样式
+                week4Btn.classList.remove('text-gray-700', 'bg-white', 'border-t', 'border-b', 'border-r');
+                week4Btn.classList.add('text-white', 'bg-primary', 'rounded-r-lg');
+                week1Btn.classList.remove('text-white', 'bg-primary');
+                week1Btn.classList.add('text-gray-700', 'bg-white');
+                week2Btn.classList.remove('text-white', 'bg-primary');
+                week2Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
+                week3Btn.classList.remove('text-white', 'bg-primary');
+                week3Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
+                
+                // 显示第四周内容，隐藏第一周、第二周和第三周内容
+                week1Elements.forEach(element => {
+                    element.classList.add('hidden');
+                });
+                week2Content.classList.add('hidden');
+                week3Content.classList.add('hidden');
+                week4Content.classList.remove('hidden');
             });
         });
     </script>
