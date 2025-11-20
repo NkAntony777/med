@@ -243,8 +243,11 @@
                         <button type="button" id="week3Btn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border-t border-b hover:bg-gray-100">
                             第三周
                         </button>
-                        <button type="button" id="week4Btn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border-t border-b border-r hover:bg-gray-100">
+                        <button type="button" id="week4Btn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border-t border-b hover:bg-gray-100">
                             第四周
+                        </button>
+                        <button type="button" id="week5Btn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border-t border-b border-r hover:bg-gray-100">
+                            第五周
                         </button>
                     </div>
                 </div>
@@ -658,6 +661,173 @@
                 
                 <p class="mt-4 text-gray-500 text-sm">更新时间：2025年11月14日</p>
             </div>
+            
+            <!-- 第五周内容 -->
+            <div id="week5Content" class="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-8 hidden">
+                <div class="flex items-center mb-6">
+                    <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white text-xl">
+                        <i class="fa fa-database"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-primary ml-4">基于三元组数据构建中医知识图谱</h3>
+                </div>
+                
+                <div class="bg-green-50 border-l-4 border-green-500 p-4 mb-6">
+                    <p class="text-gray-700 font-bold">
+                        <i class="fa fa-bullseye text-red-500 mr-2"></i>
+                        整体目标：建立从三元组数据到Neo4j图数据库的完整导入流程，完成数据的结构化存储与初步可视化。
+                    </p>
+                </div>
+                
+                <div class="mb-6">
+                    <h4 class="text-xl font-bold text-secondary mb-3">技术路线</h4>
+                    <div class="flex flex-wrap items-center justify-center gap-4">
+                        <div class="bg-light p-4 rounded-lg shadow-sm text-center">
+                            <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white mx-auto">
+                                <i class="fa fa-filter"></i>
+                            </div>
+                            <p class="mt-2 font-bold">数据清洗</p>
+                        </div>
+                        <div class="text-gray-400 text-2xl">→</div>
+                        <div class="bg-light p-4 rounded-lg shadow-sm text-center">
+                            <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white mx-auto">
+                                <i class="fa fa-bar-chart"></i>
+                            </div>
+                            <p class="mt-2 font-bold">质量分析</p>
+                        </div>
+                        <div class="text-gray-400 text-2xl">→</div>
+                        <div class="bg-light p-4 rounded-lg shadow-sm text-center">
+                            <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white mx-auto">
+                                <i class="fa fa-map"></i>
+                            </div>
+                            <p class="mt-2 font-bold">模型映射</p>
+                        </div>
+                        <div class="text-gray-400 text-2xl">→</div>
+                        <div class="bg-light p-4 rounded-lg shadow-sm text-center">
+                            <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white mx-auto">
+                                <i class="fa fa-upload"></i>
+                            </div>
+                            <p class="mt-2 font-bold">导入Neo4j</p>
+                        </div>
+                        <div class="text-gray-400 text-2xl">→</div>
+                        <div class="bg-light p-4 rounded-lg shadow-sm text-center">
+                            <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white mx-auto">
+                                <i class="fa fa-check-circle"></i>
+                            </div>
+                            <p class="mt-2 font-bold">验证查询</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <h4 class="text-xl font-bold text-secondary mb-3">一、数据清洗与预处理</h4>
+                    <p class="text-gray-700 mb-4">
+                        本阶段主要对原始三元组文件进行规范化处理，目前工作仍在进行中。
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <div class="bg-light p-4 rounded-lg">
+                            <h5 class="font-bold text-gray-800 mb-2">格式标准化</h5>
+                            <ul class="list-disc list-inside text-gray-700 space-y-1 text-sm">
+                                <li>统一三元组文件中使用的分隔符</li>
+                                <li>完成文件编码转换为UTF-8格式</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-light p-4 rounded-lg">
+                            <h5 class="font-bold text-gray-800 mb-2">内容规整</h5>
+                            <ul class="list-disc list-inside text-gray-700 space-y-1 text-sm">
+                                <li>清理实体和关系名称中的多余空格</li>
+                                <li>处理非常规字符</li>
+                                <li>同义实体归一化处理（如"脾脏"→"脾"）</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-light p-4 rounded-lg">
+                            <h5 class="font-bold text-gray-800 mb-2">数据质量检查</h5>
+                            <ul class="list-disc list-inside text-gray-700 space-y-1 text-sm">
+                                <li>识别并处理缺失值</li>
+                                <li>处理重复的三元组记录</li>
+                                <li>对三元组进行初步逻辑校验</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-6">
+                    <h4 class="text-xl font-bold text-secondary mb-3">二、Neo4j数据模型设计与导入准备</h4>
+                    <p class="text-gray-700 mb-4">
+                        本部分工作与数据清洗同步推进，目前数据模型已基本确定，导入脚本也已初步完成。
+                    </p>
+                    
+                    <div class="mb-6">
+                        <h5 class="font-bold text-gray-800 mb-2">图结构设计</h5>
+                        <div class="bg-light p-4 rounded-lg">
+                            <ul class="list-disc list-inside text-gray-700 space-y-2">
+                                <li>确定将三元组中的实体映射为Neo4j节点</li>
+                                <li>关系映射为有向边</li>
+                                <li>节点目前以"name"属性作为主标识</li>
+                                <li>为后续添加更多元属性预留了扩展空间</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h5 class="font-bold text-gray-800 mb-2">导入脚本开发</h5>
+                        <div class="bg-light p-4 rounded-lg">
+                            <ul class="list-disc list-inside text-gray-700 space-y-2 mb-4">
+                                <li>已完成neo4j-python-driver的环境配置</li>
+                                <li>已实现脚本的主要逻辑，能够读取清洗中的数据</li>
+                                <li>使用Cypher语句构建图谱结构</li>
+                                <li>脚本采用`MERGE`指令，确保节点与关系的唯一性</li>
+                            </ul>
+                            
+                            <div class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
+                                <pre class="text-sm"><code>for head, relation, tail in triples_list:
+    session.run("MERGE (h:Entity {name: $head})", head=head)
+    session.run("MERGE (t:Entity {name: $tail})", tail=tail)
+    session.run("""
+        MATCH (h:Entity {name: $head}), (t:Entity {name: $tail})
+        MERGE (h)-[r:RELATION {type: $relation}]->(t)
+        """, head=head, tail=tail, relation=relation)</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-6">
+                    <h4 class="text-xl font-bold text-secondary mb-3">三、后续工作计划</h4>
+                    <p class="text-gray-700 mb-4">
+                        当前数据清洗与导入脚本仍处于联调测试阶段。
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h5 class="font-bold text-blue-700 mb-2">数据清洗完成</h5>
+                            <p class="text-gray-700 text-sm">
+                                继续完善数据清洗工作，确保数据质量达到预期标准
+                            </p>
+                        </div>
+                        
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h5 class="font-bold text-blue-700 mb-2">执行首次数据导入</h5>
+                            <p class="text-gray-700 text-sm">
+                                在数据清洗达到预期标准后，执行首次数据导入
+                            </p>
+                        </div>
+                        
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h5 class="font-bold text-blue-700 mb-2">验证查询与评估</h5>
+                            <p class="text-gray-700 text-sm">
+                                通过Neo4j Browser执行查询语句，验证图谱结构与关联关系的正确性
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+
+                
+                <p class="mt-4 text-gray-500 text-sm">更新时间：2025年11月21日</p>
+            </div>
     </section>
 
     <!-- 收集的医书列表 - 第一周内容 -->
@@ -1012,10 +1182,12 @@
             const week2Btn = document.getElementById('week2Btn');
             const week3Btn = document.getElementById('week3Btn');
             const week4Btn = document.getElementById('week4Btn');
+            const week5Btn = document.getElementById('week5Btn');
             const week1Content = document.getElementById('week1Content');
             const week2Content = document.getElementById('week2Content');
             const week3Content = document.getElementById('week3Content');
             const week4Content = document.getElementById('week4Content');
+            const week5Content = document.getElementById('week5Content');
             const week1BooksList = document.getElementById('week1BooksList');
             const week1Resource = document.getElementById('week1Resource');
             const week1WorkDirection = document.getElementById('week1WorkDirection');
@@ -1081,22 +1253,48 @@
             
             week4Btn.addEventListener('click', function() {
                 // 更新按钮样式
-                week4Btn.classList.remove('text-gray-700', 'bg-white', 'border-t', 'border-b', 'border-r');
-                week4Btn.classList.add('text-white', 'bg-primary', 'rounded-r-lg');
+                week4Btn.classList.remove('text-gray-700', 'bg-white', 'border-t', 'border-b');
+                week4Btn.classList.add('text-white', 'bg-primary');
                 week1Btn.classList.remove('text-white', 'bg-primary');
                 week1Btn.classList.add('text-gray-700', 'bg-white');
                 week2Btn.classList.remove('text-white', 'bg-primary');
                 week2Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
                 week3Btn.classList.remove('text-white', 'bg-primary');
                 week3Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
+                week5Btn.classList.remove('text-white', 'bg-primary', 'rounded-r-lg');
+                week5Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b', 'border-r');
                 
-                // 显示第四周内容，隐藏第一周、第二周和第三周内容
+                // 显示第四周内容，隐藏第一周、第二周、第三周和第五周内容
                 week1Elements.forEach(element => {
                     element.classList.add('hidden');
                 });
                 week2Content.classList.add('hidden');
                 week3Content.classList.add('hidden');
                 week4Content.classList.remove('hidden');
+                week5Content.classList.add('hidden');
+            });
+            
+            week5Btn.addEventListener('click', function() {
+                // 更新按钮样式
+                week5Btn.classList.remove('text-gray-700', 'bg-white', 'border-t', 'border-b', 'border-r');
+                week5Btn.classList.add('text-white', 'bg-primary', 'rounded-r-lg');
+                week1Btn.classList.remove('text-white', 'bg-primary');
+                week1Btn.classList.add('text-gray-700', 'bg-white');
+                week2Btn.classList.remove('text-white', 'bg-primary');
+                week2Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
+                week3Btn.classList.remove('text-white', 'bg-primary');
+                week3Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
+                week4Btn.classList.remove('text-white', 'bg-primary');
+                week4Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
+                
+                // 显示第五周内容，隐藏第一周、第二周、第三周和第四周内容
+                week1Elements.forEach(element => {
+                    element.classList.add('hidden');
+                });
+                week2Content.classList.add('hidden');
+                week3Content.classList.add('hidden');
+                week4Content.classList.add('hidden');
+                week5Content.classList.remove('hidden');
             });
         });
     </script>
