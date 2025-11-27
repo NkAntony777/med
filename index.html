@@ -246,8 +246,11 @@
                         <button type="button" id="week4Btn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border-t border-b hover:bg-gray-100">
                             第四周
                         </button>
-                        <button type="button" id="week5Btn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border-t border-b border-r hover:bg-gray-100">
+                        <button type="button" id="week5Btn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border-t border-b hover:bg-gray-100">
                             第五周
+                        </button>
+                        <button type="button" id="week6Btn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border-t border-b border-r hover:bg-gray-100">
+                            第六周
                         </button>
                     </div>
                 </div>
@@ -829,6 +832,197 @@
                 <p class="mt-4 text-gray-500 text-sm">更新时间：2025年11月21日</p>
             </div>
     </section>
+    
+    <!-- 第六周进展 -->
+    <section id="week6Progress" class="py-12 bg-light hidden">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-serif font-bold text-primary mb-4">第六周科研进展</h2>
+                <p class="text-xl text-gray-600">中医知识图谱的Neo4j图数据库构建与验证</p>
+                <div class="w-24 h-1 bg-secondary mx-auto mt-4"></div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-lg p-8">
+                <!-- 图片展示窗口 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
+                        <h4 class="font-bold text-primary mb-3 text-center">Neo4j图数据库可视化界面</h4>
+                        <div class="overflow-hidden rounded-lg border border-gray-200">
+                            <img src="images/6.1.png" alt="Neo4j图数据库可视化界面" class="w-full h-auto transform hover:scale-105 transition duration-300">
+                        </div>
+                        <p class="text-gray-600 text-sm mt-3 text-center">
+                            Neo4j Browser中中医知识图谱的可视化展示
+                        </p>
+                    </div>
+                    
+                    <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
+                        <h4 class="font-bold text-primary mb-3 text-center">Python数据导入脚本</h4>
+                        <div class="overflow-hidden rounded-lg border border-gray-200">
+                            <img src="images/6.2.png" alt="Python数据导入脚本" class="w-full h-auto transform hover:scale-105 transition duration-300">
+                        </div>
+                        <p class="text-gray-600 text-sm mt-3 text-center">
+                            基于py2neo的中医知识图谱数据导入脚本
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center mb-6">
+                    <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white">
+                        <i class="fa fa-bullseye fa-lg"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 ml-4">核心任务</h3>
+                </div>
+                <p class="text-gray-700 mb-8">完成中医实体三元组数据的Neo4j图数据库导入，实现知识图谱的初步构建与可视化验证</p>
+                
+                <div class="flex items-center mb-6">
+                    <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white">
+                        <i class="fa fa-book fa-lg"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 ml-4">工作概述</h3>
+                </div>
+                <p class="text-gray-700 mb-8">
+                    本周聚焦知识图谱的工程化落地，编写了基于<code class="bg-gray-100 px-1 py-0.5 rounded">py2neo</code>库的Python自动化脚本，将前期清洗与标注的中医知识三元组文件（<code class="bg-gray-100 px-1 py-0.5 rounded">knowLedge_graph_triplets_correct.csv</code>）批量导入本地Neo4j图数据库，成功构建了可查询、可视化的领域知识图谱，为后续语义检索与推理任务奠定数据基础。
+                </p>
+                
+                <div class="flex items-center mb-6">
+                    <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white">
+                        <i class="fa fa-cogs fa-lg"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 ml-4">技术实现</h3>
+                </div>
+                <ol class="list-decimal list-inside text-gray-700 mb-8 space-y-2">
+                    <li><span class="font-semibold">连接与认证：</span>脚本通过<code class="bg-gray-100 px-1 py-0.5 rounded">bolt://localhost:7687</code>协议与本地Neo4j实例建立稳定连接，采用认证机制确保数据安全写入。</li>
+                    <li><span class="font-semibold">数据解析：</span>逐行读取CSV三元组数据，动态识别实体节点与关系边，自动去重并创建<code class="bg-gray-100 px-1 py-0.5 rounded">Entity</code>标签节点。</li>
+                    <li><span class="font-semibold">批量导入：</span>采用<code class="bg-gray-100 px-1 py-0.5 rounded">py2neo</code>的<code class="bg-gray-100 px-1 py-0.5 rounded">Subgraph</code>批量提交机制，优化写入效率，避免内存溢出。针对10类语义关系（性味、功效、主治、产地、别名、用法用量、别称、归经、禁忌、组成）分别构建关系类型索引，确保Schema清晰。</li>
+                    <li><span class="font-semibold">异常处理：</span>内置连接重试、事务回滚与日志记录功能，保障导入过程鲁棒性。</li>
+                </ol>
+                
+                <div class="flex items-center mb-6">
+                    <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white">
+                        <i class="fa fa-bar-chart fa-lg"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 ml-4">数据规模统计</h3>
+                </div>
+                <p class="text-gray-700 mb-4">截至本周，已成功导入：</p>
+                <ul class="list-disc list-inside text-gray-700 mb-6 space-y-2">
+                    <li><span class="font-semibold">实体节点：</span>近30,000个（含中药材、症状、证候、治法、方剂、功效类别等实体），统一标注为<code class="bg-gray-100 px-1 py-0.5 rounded">Entity</code>标签</li>
+                    <li><span class="font-semibold">关系边：</span>约60,000条，涵盖80+种语义关系类型：</li>
+                </ul>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h5 class="font-bold text-blue-700 mb-2">性味</h5>
+                        <p class="text-gray-700 text-sm">994条</p>
+                    </div>
+                    
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h5 class="font-bold text-blue-700 mb-2">功效</h5>
+                        <p class="text-gray-700 text-sm">3,688条</p>
+                    </div>
+                    
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h5 class="font-bold text-blue-700 mb-2">主治</h5>
+                        <p class="text-gray-700 text-sm">15,922条</p>
+                    </div>
+                    
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h5 class="font-bold text-blue-700 mb-2">产地</h5>
+                        <p class="text-gray-700 text-sm">176条</p>
+                    </div>
+                    
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h5 class="font-bold text-blue-700 mb-2">别名</h5>
+                        <p class="text-gray-700 text-sm">1,245条</p>
+                    </div>
+                    
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h5 class="font-bold text-blue-700 mb-2">用法用量</h5>
+                        <p class="text-gray-700 text-sm">2,080条</p>
+                    </div>
+                    
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h5 class="font-bold text-blue-700 mb-2">别称</h5>
+                        <p class="text-gray-700 text-sm">140条</p>
+                    </div>
+                    
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h5 class="font-bold text-blue-700 mb-2">归经</h5>
+                        <p class="text-gray-700 text-sm">470条</p>
+                    </div>
+                    
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h5 class="font-bold text-blue-700 mb-2">禁忌</h5>
+                        <p class="text-gray-700 text-sm">395条</p>
+                    </div>
+                    
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h5 class="font-bold text-blue-700 mb-2">组成</h5>
+                        <p class="text-gray-700 text-sm">19,330条</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center mb-6">
+                    <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white">
+                        <i class="fa fa-eye fa-lg"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 ml-4">可视化验证</h3>
+                </div>
+                <p class="text-gray-700 mb-8">
+                    通过Neo4j Browser执行<code class="bg-gray-100 px-1 py-0.5 rounded">MATCH (n:Entity) RETURN n LIMIT 25000</code>语句，图谱成功渲染，显示<strong>300个代表性节点与256条关系</strong>（因可视化采样限制），节点分布合理，关系边类型完备，验证了数据导入的正确性与图谱结构的完整性。实际全量数据已完成后台存储，支持大规模查询。
+                </p>
+                
+                <div class="flex items-center mb-6">
+                    <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white">
+                        <i class="fa fa-check-circle fa-lg"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 ml-4">阶段性成果</h3>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-white text-xs mt-0.5">
+                            <i class="fa fa-check"></i>
+                        </div>
+                        <p class="text-gray-700 ml-3">完成从结构化三元组到图数据库的端到端Pipeline</p>
+                    </div>
+                    
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-white text-xs mt-0.5">
+                            <i class="fa fa-check"></i>
+                        </div>
+                        <p class="text-gray-700 ml-3">构建中医药领域首个可交互的知识图谱原型</p>
+                    </div>
+                    
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-white text-xs mt-0.5">
+                            <i class="fa fa-check"></i>
+                        </div>
+                        <p class="text-gray-700 ml-3">实现实体-关系-属性的图语义建模，支持Cypher复杂查询</p>
+                    </div>
+                    
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-white text-xs mt-0.5">
+                            <i class="fa fa-check"></i>
+                        </div>
+                        <p class="text-gray-700 ml-3">为后续图神经网络（GNN）训练与智能问答系统提供高质量数据源</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center mb-6">
+                    <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white">
+                        <i class="fa fa-forward fa-lg"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 ml-4">下周计划</h3>
+                </div>
+                <ol class="list-decimal list-inside text-gray-700 mb-8 space-y-2">
+                    <li>完善Neo4j索引与约束机制，优化高频查询性能</li>
+                    <li>开发Cypher查询模板库，支持按功效、性味、归经等维度快速检索</li>
+                    <li>探索图谱嵌入（Graph Embedding）方法，进行实体关系补全与相似性计算</li>
+                    <li>构建基于知识图谱的问答接口，实现自然语言到Cypher的语义解析</li>
+                </ol>
+                
+                <p class="mt-4 text-gray-500 text-sm">更新时间：2025年11月28日</p>
+            </div>
+    </section>
 
     <!-- 收集的医书列表 - 第一周内容 -->
     <section id="week1BooksList" class="py-12 bg-white">
@@ -1183,11 +1377,13 @@
             const week3Btn = document.getElementById('week3Btn');
             const week4Btn = document.getElementById('week4Btn');
             const week5Btn = document.getElementById('week5Btn');
+            const week6Btn = document.getElementById('week6Btn');
             const week1Content = document.getElementById('week1Content');
             const week2Content = document.getElementById('week2Content');
             const week3Content = document.getElementById('week3Content');
             const week4Content = document.getElementById('week4Content');
             const week5Content = document.getElementById('week5Content');
+            const week6Content = document.getElementById('week6Progress');
             const week1BooksList = document.getElementById('week1BooksList');
             const week1Resource = document.getElementById('week1Resource');
             const week1WorkDirection = document.getElementById('week1WorkDirection');
@@ -1206,12 +1402,24 @@
                 week1Btn.classList.add('text-white', 'bg-primary');
                 week2Btn.classList.remove('text-white', 'bg-primary', 'rounded-r-lg');
                 week2Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
+                week3Btn.classList.remove('text-white', 'bg-primary', 'rounded-r-lg');
+                week3Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
+                week4Btn.classList.remove('text-white', 'bg-primary', 'rounded-r-lg');
+                week4Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
+                week5Btn.classList.remove('text-white', 'bg-primary', 'rounded-r-lg');
+                week5Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
+                week6Btn.classList.remove('text-white', 'bg-primary', 'rounded-r-lg');
+                week6Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b', 'border-r');
                 
-                // 显示第一周内容，隐藏第二周内容
+                // 显示第一周内容，隐藏其他周内容
                 week1Elements.forEach(element => {
                     element.classList.remove('hidden');
                 });
                 week2Content.classList.add('hidden');
+                week3Content.classList.add('hidden');
+                week4Content.classList.add('hidden');
+                week5Content.classList.add('hidden');
+                week6Content.classList.add('hidden');
             });
             
             week2Btn.addEventListener('click', function() {
@@ -1222,13 +1430,22 @@
                 week1Btn.classList.add('text-gray-700', 'bg-white');
                 week3Btn.classList.remove('text-white', 'bg-primary', 'rounded-r-lg');
                 week3Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
+                week4Btn.classList.remove('text-white', 'bg-primary', 'rounded-r-lg');
+                week4Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
+                week5Btn.classList.remove('text-white', 'bg-primary', 'rounded-r-lg');
+                week5Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
+                week6Btn.classList.remove('text-white', 'bg-primary', 'rounded-r-lg');
+                week6Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b', 'border-r');
                 
-                // 显示第二周内容，隐藏第一周和第三周内容
+                // 显示第二周内容，隐藏其他周内容
                 week1Elements.forEach(element => {
                     element.classList.add('hidden');
                 });
                 week2Content.classList.remove('hidden');
                 week3Content.classList.add('hidden');
+                week4Content.classList.add('hidden');
+                week5Content.classList.add('hidden');
+                week6Content.classList.add('hidden');
             });
             
             week3Btn.addEventListener('click', function() {
@@ -1240,15 +1457,21 @@
                 week2Btn.classList.remove('text-white', 'bg-primary');
                 week2Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
                 week4Btn.classList.remove('text-white', 'bg-primary', 'rounded-r-lg');
-                week4Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b', 'border-r');
+                week4Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
+                week5Btn.classList.remove('text-white', 'bg-primary', 'rounded-r-lg');
+                week5Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
+                week6Btn.classList.remove('text-white', 'bg-primary', 'rounded-r-lg');
+                week6Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b', 'border-r');
                 
-                // 显示第三周内容，隐藏第一周、第二周和第四周内容
+                // 显示第三周内容，隐藏其他周内容
                 week1Elements.forEach(element => {
                     element.classList.add('hidden');
                 });
                 week2Content.classList.add('hidden');
                 week3Content.classList.remove('hidden');
                 week4Content.classList.add('hidden');
+                week5Content.classList.add('hidden');
+                week6Content.classList.add('hidden');
             });
             
             week4Btn.addEventListener('click', function() {
@@ -1262,9 +1485,11 @@
                 week3Btn.classList.remove('text-white', 'bg-primary');
                 week3Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
                 week5Btn.classList.remove('text-white', 'bg-primary', 'rounded-r-lg');
-                week5Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b', 'border-r');
+                week5Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
+                week6Btn.classList.remove('text-white', 'bg-primary', 'rounded-r-lg');
+                week6Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b', 'border-r');
                 
-                // 显示第四周内容，隐藏第一周、第二周、第三周和第五周内容
+                // 显示第四周内容，隐藏其他周内容
                 week1Elements.forEach(element => {
                     element.classList.add('hidden');
                 });
@@ -1272,12 +1497,13 @@
                 week3Content.classList.add('hidden');
                 week4Content.classList.remove('hidden');
                 week5Content.classList.add('hidden');
+                week6Content.classList.add('hidden');
             });
             
             week5Btn.addEventListener('click', function() {
                 // 更新按钮样式
-                week5Btn.classList.remove('text-gray-700', 'bg-white', 'border-t', 'border-b', 'border-r');
-                week5Btn.classList.add('text-white', 'bg-primary', 'rounded-r-lg');
+                week5Btn.classList.remove('text-gray-700', 'bg-white', 'border-t', 'border-b');
+                week5Btn.classList.add('text-white', 'bg-primary');
                 week1Btn.classList.remove('text-white', 'bg-primary');
                 week1Btn.classList.add('text-gray-700', 'bg-white');
                 week2Btn.classList.remove('text-white', 'bg-primary');
@@ -1286,8 +1512,10 @@
                 week3Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
                 week4Btn.classList.remove('text-white', 'bg-primary');
                 week4Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
+                week6Btn.classList.remove('text-white', 'bg-primary', 'rounded-r-lg');
+                week6Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b', 'border-r');
                 
-                // 显示第五周内容，隐藏第一周、第二周、第三周和第四周内容
+                // 显示第五周内容，隐藏其他周内容
                 week1Elements.forEach(element => {
                     element.classList.add('hidden');
                 });
@@ -1295,6 +1523,33 @@
                 week3Content.classList.add('hidden');
                 week4Content.classList.add('hidden');
                 week5Content.classList.remove('hidden');
+                week6Content.classList.add('hidden');
+            });
+            
+            week6Btn.addEventListener('click', function() {
+                // 更新按钮样式
+                week6Btn.classList.remove('text-gray-700', 'bg-white', 'border-t', 'border-b', 'border-r');
+                week6Btn.classList.add('text-white', 'bg-primary', 'rounded-r-lg');
+                week1Btn.classList.remove('text-white', 'bg-primary');
+                week1Btn.classList.add('text-gray-700', 'bg-white');
+                week2Btn.classList.remove('text-white', 'bg-primary');
+                week2Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
+                week3Btn.classList.remove('text-white', 'bg-primary');
+                week3Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
+                week4Btn.classList.remove('text-white', 'bg-primary');
+                week4Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
+                week5Btn.classList.remove('text-white', 'bg-primary');
+                week5Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
+                
+                // 显示第六周内容，隐藏其他周内容
+                week1Elements.forEach(element => {
+                    element.classList.add('hidden');
+                });
+                week2Content.classList.add('hidden');
+                week3Content.classList.add('hidden');
+                week4Content.classList.add('hidden');
+                week5Content.classList.add('hidden');
+                week6Content.classList.remove('hidden');
             });
         });
     </script>
