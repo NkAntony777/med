@@ -249,8 +249,11 @@
                         <button type="button" id="week5Btn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border-t border-b hover:bg-gray-100">
                             第五周
                         </button>
-                        <button type="button" id="week6Btn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border-t border-b border-r hover:bg-gray-100">
+                        <button type="button" id="week6Btn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border-t border-b hover:bg-gray-100">
                             第六周
+                        </button>
+                        <button type="button" id="week7Btn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border-t border-b border-r hover:bg-gray-100 rounded-r-lg">
+                            第七周
                         </button>
                     </div>
                 </div>
@@ -833,6 +836,158 @@
             </div>
     </section>
     
+    <!-- 第七周进展 -->
+    <section id="week7Progress" class="py-12 bg-light hidden">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-serif font-bold text-primary mb-4">第七周科研进展</h2>
+                <p class="text-xl text-gray-600">中医智能问答系统技术预研与原型开发</p>
+                <div class="w-24 h-1 bg-secondary mx-auto mt-4"></div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-lg p-8">
+
+                
+                <div class="flex items-center mb-6">
+                    <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white">
+                        <i class="fa fa-bullseye fa-lg"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 ml-4">核心目标</h3>
+                </div>
+                <p class="text-gray-700 mb-8">在已构建完成的Neo4j中医药知识图谱基础上，启动智能问答系统的技术预研与原型开发。主要任务是打通从"用户自然语言问题"到"从图数据库中检索答案"再到"生成自然语言回答"的技术链路。</p>
+                
+                <div class="flex items-center mb-6">
+                    <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white">
+                        <i class="fa fa-book fa-lg"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 ml-4">主要进展与工作内容</h3>
+                </div>
+                
+                <div class="mb-8">
+                    <h4 class="font-bold text-secondary mb-4">技术方案确立</h4>
+                    <p class="text-gray-700 mb-4">
+                        经过对前沿技术的调研，确定采用<span class="font-bold">检索增强生成 (Retrieval-Augmented Generation, RAG)</span>作为本次问答系统的核心架构。该方案能有效结合知识图谱的准确性与大语言模型（LLM）的流畅性，避免模型产生"幻觉"，确保回答的专业性和可靠性。
+                    </p>
+                </div>
+                
+                <div class="mb-8">
+                    <h4 class="font-bold text-secondary mb-4">开发环境搭建</h4>
+                    <ul class="list-disc list-inside text-gray-700 space-y-2">
+                        <li>完成了核心Python库的安装与配置，包括 langchain (AI应用框架), neo4j (数据库驱动), langchain-openai (LLM接口)等。</li>
+                        <li>成功在Python环境中建立了与云端Neo4j AuraDB数据库的连接，并能够通过代码获取图谱的元信息（Schema），为后续的自动化查询生成奠定了基础。</li>
+                    </ul>
+                </div>
+                
+                <div class="mb-8">
+                    <h4 class="font-bold text-secondary mb-4">"文本到查询" (Text-to-Cypher) 技术验证</h4>
+                    <p class="text-gray-700 mb-4">
+                        初步尝试使用 LangChain 框架中的 GraphCypherQAChain 模块，旨在将用户的自然语言问题（如"麻黄汤的组成是什么？"）自动转换为精确的Neo4j查询语句（Cypher）。
+                    </p>
+                </div>
+                
+                <div class="flex items-center mb-6">
+                    <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white">
+                        <i class="fa fa-exclamation-triangle fa-lg"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 ml-4">本周遇到的主要困难与挑战</h3>
+                </div>
+                
+                <div class="mb-8">
+                    <div class="bg-yellow-50 p-4 rounded-lg border-l-4 border-yellow-500 mb-4">
+                        <h4 class="font-bold text-gray-800 mb-2">挑战一：模型对图谱结构的理解不足</h4>
+                        <p class="text-gray-700 mb-2">
+                            <span class="font-bold">问题描述：</span>直接使用基础的 GraphCypherQAChain 时发现，大模型（LLM）在面对复杂或模糊的问题时，生成的Cypher查询语句准确率不高。例如，对于"哪些药材能治疗风寒？"这类问题，模型可能难以正确地将"治疗"映射到图谱中定义的"主治"关系，或者混淆头实体和尾实体的方向。
+                        </p>
+                        <p class="text-gray-700">
+                            <span class="font-bold">根本原因：</span>这主要是因为模型仅从图谱的元信息（Schema）中获取了有限的结构知识，缺乏对节点和关系背后具体语义的深入理解。
+                        </p>
+                    </div>
+                    
+                    <div class="bg-yellow-50 p-4 rounded-lg border-l-4 border-yellow-500">
+                        <h4 class="font-bold text-gray-800 mb-2">挑战二：查询的泛化能力与模糊匹配问题</h4>
+                        <p class="text-gray-700 mb-2">
+                            <span class="font-bold">问题描述：</span>当前的Text-to-Cypher技术高度依赖用户问题中的实体词与图谱中节点名称的精确匹配。对于"咳嗽吃点啥？"这类不包含任何精确实体名称的口语化、模糊查询，系统完全无法生成有效的Cypher语句，导致检索失败。
+                        </p>
+                        <p class="text-gray-700">
+                            <span class="font-bold">根本原因：</span>知识图谱本身的优势在于精确的结构化查询，而处理自然语言的模糊性和多样性是其固有的短板。
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center mb-6">
+                    <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white">
+                        <i class="fa fa-lightbulb-o fa-lg"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 ml-4">正在实施的解决方案与下一步计划</h3>
+                </div>
+                
+                <div class="mb-8">
+                    <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                        <h4 class="font-bold text-blue-700 mb-2">方案一：通过"Few-shot Prompting"增强模型对图谱的理解</h4>
+                        <p class="text-gray-700 mb-2">
+                            <span class="font-bold">具体措施：</span>正在对 GraphCypherQAChain 的底层Prompt进行优化。计划在Prompt中加入精心设计的示例（Few-shot Examples），向模型展示几种典型的"问题 -> Cypher查询"的转换范例。例如，提供"A有什么功效 -> MATCH (n:Entity {name:'A'})-[:功效]->(m) RETURN m.name"这样的例子。
+                        </p>
+                        <p class="text-gray-700">
+                            <span class="font-bold">预期效果：</span>通过"言传身教"，引导模型学习到更准确的查询生成模式，显著提升Text-to-Cypher的准确率。
+                        </p>
+                    </div>
+                    
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h4 class="font-bold text-blue-700 mb-2">方案二：引入"混合检索"策略，应对模糊查询 (重点攻关)</h4>
+                        <p class="text-gray-700 mb-2">
+                            <span class="font-bold">具体措施：</span>这是应对挑战二的核心方案。计划搭建一个混合检索系统，将知识图谱查询与向量数据库的语义搜索相结合。
+                        </p>
+                        <ul class="list-disc list-inside text-gray-700 space-y-2 ml-4 mb-2">
+                            <li><span class="font-bold">离线步骤：</span>将知识图谱中具有丰富语义的节点（如药材、方剂）及其描述性属性（如"功效"），通过文本嵌入模型（Embedding Model）转换为向量，并存入本地的向量数据库（如Chroma或FAISS）。</li>
+                            <li><span class="font-bold">在线步骤：</span>当用户输入模糊问题时，系统首先对问题进行向量化，并在向量数据库中进行语义相似度搜索，召回最相关的实体。然后，再利用这些召回的实体作为"锚点"，回到Neo4j知识图谱中进行精确的图查询，获取更丰富的上下文信息。</li>
+                        </ul>
+                        <p class="text-gray-700">
+                            <span class="font-bold">预期效果：</span>该方案能使系统"猜"到用户可能在问什么，将模糊问题转化为一系列精确的图查询任务，极大地扩展问答系统的适用范围和智能化程度。
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="mb-8">
+                    <h4 class="font-bold text-secondary mb-4">下一步计划</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h5 class="font-bold text-green-700 mb-2">完成Few-shot Prompt优化</h5>
+                            <p class="text-gray-700 text-sm">
+                                下周初完成第一版Few-shot Prompt的编写与测试，量化评估Text-to-Cypher准确率的提升。
+                            </p>
+                        </div>
+                        
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h5 class="font-bold text-green-700 mb-2">搭建向量检索流程</h5>
+                            <p class="text-gray-700 text-sm">
+                                下周中完成知识图谱节点的向量化，并搭建基础的向量检索流程。
+                            </p>
+                        </div>
+                        
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h5 class="font-bold text-green-700 mb-2">完成混合检索原型</h5>
+                            <p class="text-gray-700 text-sm">
+                                下周末初步整合向量检索与图谱查询，完成混合检索的原型验证，使其能够处理至少一种类型的模糊问题。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex items-center mb-6">
+                    <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white">
+                        <i class="fa fa-check-circle fa-lg"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 ml-4">总结</h3>
+                </div>
+                <p class="text-gray-700 mb-8">
+                    本周成功确立了技术方向并搭建了基础开发环境。虽然在核心的"文本到查询"环节遇到了挑战，但这符合技术预研阶段的预期。目前已针对性地制定了清晰、前沿的解决方案，并正在积极推进中。预计下周将在增强查询准确性和处理模糊问题方面取得关键进展。
+                </p>
+                
+                <p class="mt-4 text-gray-500 text-sm">更新时间：2025年12月5日</p>
+            </div>
+        </div>
+    </section>
+
     <!-- 第六周进展 -->
     <section id="week6Progress" class="py-12 bg-light hidden">
         <div class="container mx-auto px-4">
@@ -1528,8 +1683,8 @@
             
             week6Btn.addEventListener('click', function() {
                 // 更新按钮样式
-                week6Btn.classList.remove('text-gray-700', 'bg-white', 'border-t', 'border-b', 'border-r');
-                week6Btn.classList.add('text-white', 'bg-primary', 'rounded-r-lg');
+                week6Btn.classList.remove('text-gray-700', 'bg-white', 'border-t', 'border-b');
+                week6Btn.classList.add('text-white', 'bg-primary');
                 week1Btn.classList.remove('text-white', 'bg-primary');
                 week1Btn.classList.add('text-gray-700', 'bg-white');
                 week2Btn.classList.remove('text-white', 'bg-primary');
@@ -1540,6 +1695,8 @@
                 week4Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
                 week5Btn.classList.remove('text-white', 'bg-primary');
                 week5Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
+                week7Btn.classList.remove('text-white', 'bg-primary', 'rounded-r-lg');
+                week7Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b', 'border-r');
                 
                 // 显示第六周内容，隐藏其他周内容
                 week1Elements.forEach(element => {
@@ -1550,6 +1707,40 @@
                 week4Content.classList.add('hidden');
                 week5Content.classList.add('hidden');
                 week6Content.classList.remove('hidden');
+                week7Progress.classList.add('hidden');
+            });
+            
+            // 第七周按钮事件处理
+            const week7Btn = document.getElementById('week7Btn');
+            const week7Progress = document.getElementById('week7Progress');
+            
+            week7Btn.addEventListener('click', function() {
+                // 更新按钮样式
+                week7Btn.classList.remove('text-gray-700', 'bg-white', 'border-t', 'border-b', 'border-r');
+                week7Btn.classList.add('text-white', 'bg-primary', 'rounded-r-lg');
+                week1Btn.classList.remove('text-white', 'bg-primary');
+                week1Btn.classList.add('text-gray-700', 'bg-white');
+                week2Btn.classList.remove('text-white', 'bg-primary');
+                week2Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
+                week3Btn.classList.remove('text-white', 'bg-primary');
+                week3Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
+                week4Btn.classList.remove('text-white', 'bg-primary');
+                week4Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
+                week5Btn.classList.remove('text-white', 'bg-primary');
+                week5Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
+                week6Btn.classList.remove('text-white', 'bg-primary');
+                week6Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
+                
+                // 显示第七周内容，隐藏其他周内容
+                week1Elements.forEach(element => {
+                    element.classList.add('hidden');
+                });
+                week2Content.classList.add('hidden');
+                week3Content.classList.add('hidden');
+                week4Content.classList.add('hidden');
+                week5Content.classList.add('hidden');
+                week6Content.classList.add('hidden');
+                week7Progress.classList.remove('hidden');
             });
         });
     </script>
