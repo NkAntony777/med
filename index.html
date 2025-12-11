@@ -233,29 +233,22 @@
                 
                 <!-- 周数选择器 -->
                 <div class="mt-6 flex justify-center">
-                    <div class="inline-flex rounded-md shadow-sm" role="group">
-                        <button type="button" id="week1Btn" class="px-4 py-2 text-sm font-medium text-white bg-primary rounded-l-lg hover:bg-opacity-90">
-                            第一周
-                        </button>
-                        <button type="button" id="week2Btn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border-t border-b hover:bg-gray-100">
-                            第二周
-                        </button>
-                        <button type="button" id="week3Btn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border-t border-b hover:bg-gray-100">
-                            第三周
-                        </button>
-                        <button type="button" id="week4Btn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border-t border-b hover:bg-gray-100">
-                            第四周
-                        </button>
-                        <button type="button" id="week5Btn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border-t border-b hover:bg-gray-100">
-                            第五周
-                        </button>
-                        <button type="button" id="week6Btn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border-t border-b hover:bg-gray-100">
-                            第六周
-                        </button>
-                        <button type="button" id="week7Btn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border-t border-b border-r hover:bg-gray-100 rounded-r-lg">
-                            第七周
-                        </button>
+                    <!-- 下拉选择器 -->
+                <div class="relative inline-block w-full max-w-xs mt-4">
+                    <select id="weekSelector" class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded-lg leading-tight focus:outline-none focus:bg-white focus:border-primary">
+                        <option value="week1">第一周</option>
+                        <option value="week2">第二周</option>
+                        <option value="week3">第三周</option>
+                        <option value="week4">第四周</option>
+                        <option value="week5">第五周</option>
+                        <option value="week6">第六周</option>
+                        <option value="week7">第七周</option>
+                        <option value="week8">第八周</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                        <i class="fa fa-chevron-down"></i>
                     </div>
+                </div>
                 </div>
             </div>
             
@@ -836,6 +829,138 @@
             </div>
     </section>
     
+    <!-- 第八周进展 -->
+    <section id="week8Progress" class="py-12 bg-light hidden">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-serif font-bold text-primary mb-4">第八周科研进展</h2>
+                <p class="text-xl text-gray-600">中医药知识图谱问答引擎的架构实现与流程打通</p>
+                <div class="w-24 h-1 bg-secondary mx-auto mt-4"></div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-lg p-8">
+                <div class="flex items-center mb-6">
+                    <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white">
+                        <i class="fa fa-calendar fa-lg"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 ml-4">本周科研进展（2025年12月11日）</h3>
+                </div>
+                
+                <div class="mb-8">
+                    <h4 class="text-xl font-bold text-secondary mb-4">一、研究概述</h4>
+                    <p class="text-gray-700 mb-4">
+                        本周工作聚焦于中医药知识图谱问答引擎的架构实现与流程打通。完成了基于Neo4j图数据库与Chroma向量数据库的分层检索系统搭建，初步实现了从自然语言问题到结构化查询再到答案生成的完整链路，并对核心模块进行了功能性验证。
+                    </p>
+                </div>
+                
+                <div class="mb-8">
+                    <h4 class="text-xl font-bold text-secondary mb-4">二、完成的具体工作</h4>
+                    
+                    <div class="mb-6">
+                        <h5 class="font-bold text-gray-800 mb-3">1. 双库协同架构搭建</h5>
+                        <ul class="list-disc list-inside text-gray-700 space-y-2 ml-4">
+                            <li>实现了Neo4j图数据库的连接模块，用于存储和查询实体间关系（如药材-功效、方剂-组成等）。</li>
+                            <li>完成了Chroma向量数据库的加载模块，基于<code class="bg-gray-100 px-1 py-0.5 rounded">all-MiniLM-L6-v2</code>模型构建实体语义索引，支持模糊语义匹配。</li>
+                            <li>集成了DeepSeek-reasoner作为核心推理模型，负责查询生成与答案合成。</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h5 class="font-bold text-gray-800 mb-3">2. 分层检索逻辑实现</h5>
+                        <ul class="list-disc list-inside text-gray-700 space-y-2 ml-4">
+                            <li><span class="font-bold">第一层（直接Text-to-Cypher）</span>：设计了领域专用的Cypher生成Prompt，内含3个典型示例（实体组成查询、功效正向查询、功效反向查询），强制模型输出符合Neo4j语法规范的查询语句。</li>
+                            <li><span class="font-bold">第二/三层（混合检索）</span>：当第一层未返回有效结果时，系统自动触发备选流程：
+                                <ul class="list-disc list-inside text-gray-700 space-y-1 ml-8 mt-2">
+                                    <li>步骤A：通过向量语义搜索召回Top-3相关实体</li>
+                                    <li>步骤B：对召回实体执行1跳广度优先搜索，提取最多5条相邻三元组</li>
+                                    <li>步骤C：将三元组作为背景知识，调用答案生成链输出最终回复</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h5 class="font-bold text-gray-800 mb-3">3. 答案生成约束机制</h5>
+                        <ul class="list-disc list-inside text-gray-700 space-y-2 ml-4">
+                            <li>编写了严格的答案生成Prompt，明确指令要求：
+                                <ul class="list-disc list-inside text-gray-700 space-y-1 ml-8 mt-2">
+                                    <li>回答必须完全基于提供的三元组</li>
+                                    <li>禁止引入外部知识或进行扩展解释</li>
+                                    <li>当背景知识不足时，返回标准拒绝表述</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h5 class="font-bold text-gray-800 mb-3">4. 功能验证</h5>
+                        <p class="text-gray-700 ml-4">
+                            以"白术的作用是什么"为测试用例，系统在第一层成功生成Cypher查询，从图谱中提取到5条功效关系（健脾利水、强脾、实脾、致冲和之气、安胎），并整合为连贯回答，验证了流程的基本可用性。
+                        </p>
+                        
+                        <!-- 图片展示区域 -->
+                        <div class="mt-4 bg-light p-4 rounded-lg border border-gray-200">
+                            <h5 class="font-bold text-secondary mb-3">系统功能验证截图</h5>
+                            <div class="bg-white p-4 rounded shadow-sm flex justify-center">
+                                <img src="images/8.1.png" alt="中医知识图谱问答系统功能验证界面" class="w-full max-w-2xl h-64 object-contain rounded">
+                            </div>
+                            <p class="text-gray-600 text-sm mt-3 text-center">
+                                图：系统对"白术的作用是什么"问题的处理流程与结果展示
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-8">
+                    <h4 class="text-xl font-bold text-secondary mb-4">三、当前系统特性</h4>
+                    <ul class="list-disc list-inside text-gray-700 space-y-2 ml-4">
+                        <li><span class="font-bold">双层容错设计</span>：主路径与备选路径自动切换，避免单点阻塞</li>
+                        <li><span class="font-bold">检索深度可控</span>：子图采样限制在1跳邻居与5条记录，平衡信息量与查询效率</li>
+                        <li><span class="font-bold">抗幻觉机制</span>：通过Prompt工程将LLM限制在检索结果范围内</li>
+                    </ul>
+                </div>
+                
+                <div class="mb-8">
+                    <h4 class="text-xl font-bold text-secondary mb-4">四、存在的问题</h4>
+                    <ul class="list-disc list-inside text-gray-700 space-y-2 ml-4">
+                        <li><span class="font-bold">知识库规模限制</span>：当前实体与关系数据覆盖范围较小，大量专业问题无法召回有效子图，导致查询失败率较高。</li>
+                        <li><span class="font-bold">数据质量不均</span>：图谱中存在关系类型标注不完整、实体命名不统一等问题，影响检索准确性。</li>
+                        <li><span class="font-bold">命中稳定性不足</span>：系统高度依赖实体名称精确匹配，对别名、别称、语境变化等情况的鲁棒性较弱。</li>
+                        <li><span class="font-bold">评估体系缺失</span>：尚未建立量化测试集，无法系统评估各层检索的准确率与召回率。</li>
+                    </ul>
+                </div>
+                
+                <div class="mb-8">
+                    <h4 class="text-xl font-bold text-secondary mb-4">五、下周计划</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h5 class="font-bold text-blue-700 mb-2">扩充数据覆盖</h5>
+                            <p class="text-gray-700 text-sm">
+                                优先采集《中国药典》收录的常用药材与经典方剂，增加实体节点数量。
+                            </p>
+                        </div>
+                        
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h5 class="font-bold text-blue-700 mb-2">数据清洗优化</h5>
+                            <p class="text-gray-700 text-sm">
+                                制定实体命名规范，补全缺失的关系边，统一关系类型标签。
+                            </p>
+                        </div>
+                        
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h5 class="font-bold text-blue-700 mb-2">检索策略改进</h5>
+                            <p class="text-gray-700 text-sm">
+                                引入实体消歧机制，支持别名映射；尝试降低向量搜索相似度阈值以提升召回率。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <p class="mt-4 text-gray-500 text-sm">更新时间：2025年12月11日</p>
+            </div>
+        </div>
+    </section>
+
     <!-- 第七周进展 -->
     <section id="week7Progress" class="py-12 bg-light hidden">
         <div class="container mx-auto px-4">
@@ -1480,8 +1605,9 @@
 
     <!-- JavaScript -->
     <script>
-        // 滚动显示动画
+        // 页面加载完成后执行
         document.addEventListener('DOMContentLoaded', function() {
+            // 滚动显示动画
             const scrollRevealElements = document.querySelectorAll('.scroll-reveal');
             
             function checkScroll() {
@@ -1508,37 +1634,37 @@
             const copyBtn = document.getElementById('copyBtn');
             const copySuccess = document.getElementById('copySuccess');
             
-            copyBtn.addEventListener('click', function() {
-                const textToCopy = `【超级会员V4】我通过百度网盘分享的文件：中医
+            if (copyBtn && copySuccess) {
+                copyBtn.addEventListener('click', function() {
+                    const textToCopy = `【超级会员V4】我通过百度网盘分享的文件：中医
 链接：https://pan.baidu.com/s/1vbyrN7EbGOKYddYwWuj8mg
 提取码：7gB3
 复制这段内容打开「百度网盘APP即可获取」`;
-                
-                navigator.clipboard.writeText(textToCopy)
-                    .then(() => {
-                        copySuccess.classList.remove('hidden');
-                        setTimeout(() => {
-                            copySuccess.classList.add('hidden');
-                        }, 3000);
-                    })
-                    .catch(err => {
-                        console.error('无法复制文本: ', err);
-                    });
-            });
+                    
+                    navigator.clipboard.writeText(textToCopy)
+                        .then(() => {
+                            copySuccess.classList.remove('hidden');
+                            setTimeout(() => {
+                                copySuccess.classList.add('hidden');
+                            }, 3000);
+                        })
+                        .catch(err => {
+                            console.error('无法复制文本: ', err);
+                        });
+                });
+            }
             
-            // 周数切换功能
-            const week1Btn = document.getElementById('week1Btn');
-            const week2Btn = document.getElementById('week2Btn');
-            const week3Btn = document.getElementById('week3Btn');
-            const week4Btn = document.getElementById('week4Btn');
-            const week5Btn = document.getElementById('week5Btn');
-            const week6Btn = document.getElementById('week6Btn');
+            // 获取所有周内容元素
             const week1Content = document.getElementById('week1Content');
             const week2Content = document.getElementById('week2Content');
             const week3Content = document.getElementById('week3Content');
             const week4Content = document.getElementById('week4Content');
             const week5Content = document.getElementById('week5Content');
-            const week6Content = document.getElementById('week6Progress');
+            const week6Progress = document.getElementById('week6Progress');
+            const week7Progress = document.getElementById('week7Progress');
+            const week8Progress = document.getElementById('week8Progress');
+            
+            // 第一周特有内容
             const week1BooksList = document.getElementById('week1BooksList');
             const week1Resource = document.getElementById('week1Resource');
             const week1WorkDirection = document.getElementById('week1WorkDirection');
@@ -1551,197 +1677,57 @@
                 week1WorkDirection
             ];
             
-            week1Btn.addEventListener('click', function() {
-                // 更新按钮样式
-                week1Btn.classList.remove('text-gray-700', 'bg-white');
-                week1Btn.classList.add('text-white', 'bg-primary');
-                week2Btn.classList.remove('text-white', 'bg-primary', 'rounded-r-lg');
-                week2Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
-                week3Btn.classList.remove('text-white', 'bg-primary', 'rounded-r-lg');
-                week3Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
-                week4Btn.classList.remove('text-white', 'bg-primary', 'rounded-r-lg');
-                week4Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
-                week5Btn.classList.remove('text-white', 'bg-primary', 'rounded-r-lg');
-                week5Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
-                week6Btn.classList.remove('text-white', 'bg-primary', 'rounded-r-lg');
-                week6Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b', 'border-r');
-                
-                // 显示第一周内容，隐藏其他周内容
-                week1Elements.forEach(element => {
-                    element.classList.remove('hidden');
-                });
-                week2Content.classList.add('hidden');
-                week3Content.classList.add('hidden');
-                week4Content.classList.add('hidden');
-                week5Content.classList.add('hidden');
-                week6Content.classList.add('hidden');
-            });
+            // 获取下拉选择器
+            const weekSelector = document.getElementById('weekSelector');
             
-            week2Btn.addEventListener('click', function() {
-                // 更新按钮样式
-                week2Btn.classList.remove('text-gray-700', 'bg-white', 'border-t', 'border-b');
-                week2Btn.classList.add('text-white', 'bg-primary');
-                week1Btn.classList.remove('text-white', 'bg-primary');
-                week1Btn.classList.add('text-gray-700', 'bg-white');
-                week3Btn.classList.remove('text-white', 'bg-primary', 'rounded-r-lg');
-                week3Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
-                week4Btn.classList.remove('text-white', 'bg-primary', 'rounded-r-lg');
-                week4Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
-                week5Btn.classList.remove('text-white', 'bg-primary', 'rounded-r-lg');
-                week5Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
-                week6Btn.classList.remove('text-white', 'bg-primary', 'rounded-r-lg');
-                week6Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b', 'border-r');
-                
-                // 显示第二周内容，隐藏其他周内容
+            // 显示指定周的内容
+            function showWeekContent(weekNumber) {
+                // 隐藏所有内容
                 week1Elements.forEach(element => {
-                    element.classList.add('hidden');
+                    if (element) element.classList.add('hidden');
                 });
-                week2Content.classList.remove('hidden');
-                week3Content.classList.add('hidden');
-                week4Content.classList.add('hidden');
-                week5Content.classList.add('hidden');
-                week6Content.classList.add('hidden');
-            });
-            
-            week3Btn.addEventListener('click', function() {
-                // 更新按钮样式
-                week3Btn.classList.remove('text-gray-700', 'bg-white', 'border-t', 'border-b');
-                week3Btn.classList.add('text-white', 'bg-primary');
-                week1Btn.classList.remove('text-white', 'bg-primary');
-                week1Btn.classList.add('text-gray-700', 'bg-white');
-                week2Btn.classList.remove('text-white', 'bg-primary');
-                week2Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
-                week4Btn.classList.remove('text-white', 'bg-primary', 'rounded-r-lg');
-                week4Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
-                week5Btn.classList.remove('text-white', 'bg-primary', 'rounded-r-lg');
-                week5Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
-                week6Btn.classList.remove('text-white', 'bg-primary', 'rounded-r-lg');
-                week6Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b', 'border-r');
                 
-                // 显示第三周内容，隐藏其他周内容
-                week1Elements.forEach(element => {
-                    element.classList.add('hidden');
-                });
-                week2Content.classList.add('hidden');
-                week3Content.classList.remove('hidden');
-                week4Content.classList.add('hidden');
-                week5Content.classList.add('hidden');
-                week6Content.classList.add('hidden');
-            });
-            
-            week4Btn.addEventListener('click', function() {
-                // 更新按钮样式
-                week4Btn.classList.remove('text-gray-700', 'bg-white', 'border-t', 'border-b');
-                week4Btn.classList.add('text-white', 'bg-primary');
-                week1Btn.classList.remove('text-white', 'bg-primary');
-                week1Btn.classList.add('text-gray-700', 'bg-white');
-                week2Btn.classList.remove('text-white', 'bg-primary');
-                week2Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
-                week3Btn.classList.remove('text-white', 'bg-primary');
-                week3Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
-                week5Btn.classList.remove('text-white', 'bg-primary', 'rounded-r-lg');
-                week5Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
-                week6Btn.classList.remove('text-white', 'bg-primary', 'rounded-r-lg');
-                week6Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b', 'border-r');
+                if (week2Content) week2Content.classList.add('hidden');
+                if (week3Content) week3Content.classList.add('hidden');
+                if (week4Content) week4Content.classList.add('hidden');
+                if (week5Content) week5Content.classList.add('hidden');
+                if (week6Progress) week6Progress.classList.add('hidden');
+                if (week7Progress) week7Progress.classList.add('hidden');
+                if (week8Progress) week8Progress.classList.add('hidden');
                 
-                // 显示第四周内容，隐藏其他周内容
-                week1Elements.forEach(element => {
-                    element.classList.add('hidden');
-                });
-                week2Content.classList.add('hidden');
-                week3Content.classList.add('hidden');
-                week4Content.classList.remove('hidden');
-                week5Content.classList.add('hidden');
-                week6Content.classList.add('hidden');
-            });
+                // 显示选中的周内容
+                if (weekNumber === 1) {
+                    week1Elements.forEach(element => {
+                        if (element) element.classList.remove('hidden');
+                    });
+                } else if (weekNumber === 2 && week2Content) {
+                    week2Content.classList.remove('hidden');
+                } else if (weekNumber === 3 && week3Content) {
+                    week3Content.classList.remove('hidden');
+                } else if (weekNumber === 4 && week4Content) {
+                    week4Content.classList.remove('hidden');
+                } else if (weekNumber === 5 && week5Content) {
+                    week5Content.classList.remove('hidden');
+                } else if (weekNumber === 6 && week6Progress) {
+                    week6Progress.classList.remove('hidden');
+                } else if (weekNumber === 7 && week7Progress) {
+                    week7Progress.classList.remove('hidden');
+                } else if (weekNumber === 8 && week8Progress) {
+                    week8Progress.classList.remove('hidden');
+                }
+            }
             
-            week5Btn.addEventListener('click', function() {
-                // 更新按钮样式
-                week5Btn.classList.remove('text-gray-700', 'bg-white', 'border-t', 'border-b');
-                week5Btn.classList.add('text-white', 'bg-primary');
-                week1Btn.classList.remove('text-white', 'bg-primary');
-                week1Btn.classList.add('text-gray-700', 'bg-white');
-                week2Btn.classList.remove('text-white', 'bg-primary');
-                week2Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
-                week3Btn.classList.remove('text-white', 'bg-primary');
-                week3Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
-                week4Btn.classList.remove('text-white', 'bg-primary');
-                week4Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
-                week6Btn.classList.remove('text-white', 'bg-primary', 'rounded-r-lg');
-                week6Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b', 'border-r');
+            // 为下拉选择器添加change事件
+            if (weekSelector) {
+                weekSelector.addEventListener('change', function() {
+                    const selectedWeek = parseInt(this.value.replace('week', ''));
+                    showWeekContent(selectedWeek);
+                });
                 
-                // 显示第五周内容，隐藏其他周内容
-                week1Elements.forEach(element => {
-                    element.classList.add('hidden');
-                });
-                week2Content.classList.add('hidden');
-                week3Content.classList.add('hidden');
-                week4Content.classList.add('hidden');
-                week5Content.classList.remove('hidden');
-                week6Content.classList.add('hidden');
-            });
-            
-            week6Btn.addEventListener('click', function() {
-                // 更新按钮样式
-                week6Btn.classList.remove('text-gray-700', 'bg-white', 'border-t', 'border-b');
-                week6Btn.classList.add('text-white', 'bg-primary');
-                week1Btn.classList.remove('text-white', 'bg-primary');
-                week1Btn.classList.add('text-gray-700', 'bg-white');
-                week2Btn.classList.remove('text-white', 'bg-primary');
-                week2Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
-                week3Btn.classList.remove('text-white', 'bg-primary');
-                week3Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
-                week4Btn.classList.remove('text-white', 'bg-primary');
-                week4Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
-                week5Btn.classList.remove('text-white', 'bg-primary');
-                week5Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
-                week7Btn.classList.remove('text-white', 'bg-primary', 'rounded-r-lg');
-                week7Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b', 'border-r');
-                
-                // 显示第六周内容，隐藏其他周内容
-                week1Elements.forEach(element => {
-                    element.classList.add('hidden');
-                });
-                week2Content.classList.add('hidden');
-                week3Content.classList.add('hidden');
-                week4Content.classList.add('hidden');
-                week5Content.classList.add('hidden');
-                week6Content.classList.remove('hidden');
-                week7Progress.classList.add('hidden');
-            });
-            
-            // 第七周按钮事件处理
-            const week7Btn = document.getElementById('week7Btn');
-            const week7Progress = document.getElementById('week7Progress');
-            
-            week7Btn.addEventListener('click', function() {
-                // 更新按钮样式
-                week7Btn.classList.remove('text-gray-700', 'bg-white', 'border-t', 'border-b', 'border-r');
-                week7Btn.classList.add('text-white', 'bg-primary', 'rounded-r-lg');
-                week1Btn.classList.remove('text-white', 'bg-primary');
-                week1Btn.classList.add('text-gray-700', 'bg-white');
-                week2Btn.classList.remove('text-white', 'bg-primary');
-                week2Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
-                week3Btn.classList.remove('text-white', 'bg-primary');
-                week3Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
-                week4Btn.classList.remove('text-white', 'bg-primary');
-                week4Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
-                week5Btn.classList.remove('text-white', 'bg-primary');
-                week5Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
-                week6Btn.classList.remove('text-white', 'bg-primary');
-                week6Btn.classList.add('text-gray-700', 'bg-white', 'border-t', 'border-b');
-                
-                // 显示第七周内容，隐藏其他周内容
-                week1Elements.forEach(element => {
-                    element.classList.add('hidden');
-                });
-                week2Content.classList.add('hidden');
-                week3Content.classList.add('hidden');
-                week4Content.classList.add('hidden');
-                week5Content.classList.add('hidden');
-                week6Content.classList.add('hidden');
-                week7Progress.classList.remove('hidden');
-            });
+                // 默认显示第一周内容
+                showWeekContent(1);
+                weekSelector.value = 'week1';
+            }
         });
     </script>
 
