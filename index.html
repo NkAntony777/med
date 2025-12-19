@@ -244,6 +244,7 @@
                         <option value="week6">第六周</option>
                         <option value="week7">第七周</option>
                         <option value="week8">第八周</option>
+                        <option value="week9">第九周</option>
                     </select>
                     <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                         <i class="fa fa-chevron-down"></i>
@@ -829,6 +830,271 @@
             </div>
     </section>
     
+    <!-- 第九周进展 -->
+    <section id="week9Progress" class="py-12 bg-light hidden">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-serif font-bold text-primary mb-4">第九周科研进展</h2>
+                <p class="text-xl text-gray-600">智能中医知识问答与图谱构建平台</p>
+                <div class="w-24 h-1 bg-secondary mx-auto mt-4"></div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-lg p-8">
+                <div class="flex items-center mb-6">
+                    <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white">
+                        <i class="fa fa-calendar fa-lg"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 ml-4">本周科研进展（2025年12月19日）</h3>
+                </div>
+                
+                <div class="mb-8">
+                    <h4 class="text-xl font-bold text-secondary mb-4">一、项目概述</h4>
+                    <p class="text-gray-700 mb-4">
+                        本项目成功设计并实现了一个高度智能化的中医知识问答平台。该平台深度融合了大语言模型 (LLM) 的自然语言理解与生成能力，以及知识图谱 (KG) 的结构化知识存储与推理能力。系统采用 Flask 后端框架，结合 Qwen3-Embedding-8B 模型提供强大的语义理解，DeepSeek-VLM 模型进行 OCR 和文档结构解析，Neo4j 数据库存储图谱，ChromaDB 向量数据库管理海量文本数据，并提供 Web 前端交互界面。核心目标是为用户提供专业、准确、可靠且交互友好的中医问答服务，并支持用户上传自定义文档自动扩展知识库。
+                    </p>
+                </div>
+                
+                <div class="mb-8">
+                    <h4 class="text-xl font-bold text-secondary mb-4">二、核心技术架构</h4>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-light p-4 rounded-lg">
+                            <h5 class="font-bold text-primary mb-3">后端框架</h5>
+                            <p class="text-gray-700">Flask</p>
+                        </div>
+                        
+                        <div class="bg-light p-4 rounded-lg">
+                            <h5 class="font-bold text-primary mb-3">数据库</h5>
+                            <ul class="list-disc list-inside text-gray-700 space-y-1">
+                                <li>知识图谱：Neo4j (用于存储实体、关系、三元组知识)</li>
+                                <li>聊天历史：SQLite (通过 Flask-SQLAlchemy 管理)</li>
+                                <li>向量数据库：ChromaDB (持久化存储，使用 E 盘分片)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-light p-4 rounded-lg">
+                            <h5 class="font-bold text-primary mb-3">LLM 模型</h5>
+                            <ul class="list-disc list-inside text-gray-700 space-y-1">
+                                <li>问答生成：DeepSeek-VLM (文本 + OCR 结合)</li>
+                                <li>查询扩展/意图识别：DeepSeek</li>
+                                <li>Text2Cypher：DeepSeek</li>
+                                <li>Reranker：BAAI/bge-reranker-v2-m3</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-light p-4 rounded-lg">
+                            <h5 class="font-bold text-primary mb-3">OCR / 文件处理</h5>
+                            <ul class="list-disc list-inside text-gray-700 space-y-1">
+                                <li>主模型：DeepSeek-VLM</li>
+                                <li>备选 OCR：Baidu OCR</li>
+                                <li>降级处理：YdOCR</li>
+                                <li>纯文本处理：PyMuPDF (fitz)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-light p-4 rounded-lg md:col-span-2">
+                            <h5 class="font-bold text-primary mb-3">前端</h5>
+                            <p class="text-gray-700">HTML, CSS, JavaScript (Vue.js 风格)</p>
+                            <ul class="list-disc list-inside text-gray-700 space-y-1 mt-2">
+                                <li>UI 框架：Font Awesome (图标), Marked.js (Markdown 渲染), DOMPurify (HTML 清洗)</li>
+                                <li>PDF 预览：PDF.js (Canvas 渲染，避免下载)</li>
+                                <li>交互：AJAX 异步通信，流式输出，多模块状态同步，断点续传</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-8">
+                    <h4 class="text-xl font-bold text-secondary mb-4">三、核心功能模块</h4>
+                    
+                    <div class="mb-6">
+                        <h5 class="font-bold text-primary mb-3">A. 智能问答系统</h5>
+                        <div class="bg-light p-4 rounded-lg">
+                            <ul class="list-disc list-inside text-gray-700 space-y-2">
+                                <li><span class="font-bold">多模态输入：</span>支持用户提问文本，以及上传 PDF、图片文件。</li>
+                                <li><span class="font-bold">语义理解：</span>
+                                    <ul class="list-disc list-inside text-gray-700 space-y-1 ml-6 mt-1">
+                                        <li>意图识别：通过 question_classifier 模块识别用户意图。</li>
+                                        <li>实体提取：利用 Jieba 专业词典和 LLM 提示，精准提取中医实体。</li>
+                                        <li>查询扩展：调用 DeepSeek 将用户问题扩展为包含同义词、别名、相关检索维度的查询词。</li>
+                                    </ul>
+                                </li>
+                                <li><span class="font-bold">多路检索：</span>
+                                    <ul class="list-disc list-inside text-gray-700 space-y-1 ml-6 mt-1">
+                                        <li>规则检索：精准匹配特定意图，生成 Cypher 查询。</li>
+                                        <li>向量检索：通过 vector_handler_sharded 调用 Qwen3-Embedding-8B。</li>
+                                        <li>图谱子图检索 (Ego Graph)：提取实体在 Neo4j 中的直接邻居信息。</li>
+                                        <li>Text2Cypher：当规则和向量均未命中时，调用 DeepSeek 将自然语言直接转换为 Cypher 查询。</li>
+                                    </ul>
+                                </li>
+                                <li><span class="font-bold">重排序 (Re-ranking)：</span>使用本地部署的 BAAI/bge-reranker-v2-m3 对所有检索到的上下文进行相关性打分。</li>
+                                <li><span class="font-bold">答案生成 (LLM)：</span>将重排序后的高质量上下文，连同用户原始问题，一起喂给 DeepSeek 模型，生成流畅、准确、专业的 Markdown 回答。</li>
+                                <li><span class="font-bold">流式输出：</span>后端通过 Flask Stream response 将 LLM 的回答逐字推送到前端。</li>
+                                <li><span class="font-bold">聊天历史：</span>对话结束后，将问答对持久化存储到 SQLite 数据库，用户可查看最近对话。</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h5 class="font-bold text-primary mb-3">B. 文档智能处理模块</h5>
+                        <div class="bg-light p-4 rounded-lg">
+                            <ul class="list-disc list-inside text-gray-700 space-y-2">
+                                <li><span class="font-bold">文件上传：</span>支持多文件上传，支持 PDF、图片（JPG, PNG）、TXT、JSON、MD 等格式。</li>
+                                <li><span class="font-bold">智能解析：</span>
+                                    <ul class="list-disc list-inside text-gray-700 space-y-1 ml-6 mt-1">
+                                        <li>文本文件：直接读取，尝试 UTF-8/GBK 编码。</li>
+                                        <li>图片文件：调用 DeepSeek-VLM 进行 OCR，优先输出 Markdown 格式。</li>
+                                        <li>PDF 文件：优先使用 Docling 进行高级解析，回退机制调用 DeepSeek-VLM。</li>
+                                    </ul>
+                                </li>
+                                <li><span class="font-bold">三元组抽取：</span>将解析出的文本传递给 DeepSeek，提取 (head, type, tail) 知识三元组。</li>
+                                <li><span class="font-bold">交互式确认：</span>上传后，允许用户预览 OCR 文本，编辑纠正错误，预览提取到的三元组。</li>
+                                <li><span class="font-bold">后台批量处理：</span>支持多文件同时后台上传，提供进度条、状态显示。</li>
+                                <li><span class="font-bold">图谱管理：</span>集成 ECharts 实现图谱的交互式展示，支持按实体、关系关键词搜索，允许用户修改或删除节点/关系。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-8">
+                    <h4 class="text-xl font-bold text-secondary mb-4">四、技术亮点与创新</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h5 class="font-bold text-blue-700 mb-2">LLM + KG + Vector 深度融合</h5>
+                            <p class="text-gray-700 text-sm">
+                                实现了 RAG 架构的三层检索（规则、图谱、向量），并引入重排序模型，确保问答的准确性、全面性与流畅性。
+                            </p>
+                        </div>
+                        
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h5 class="font-bold text-blue-700 mb-2">多模态 OCR (DeepSeek-VLM)</h5>
+                            <p class="text-gray-700 text-sm">
+                                利用先进的视觉语言模型，实现了对 PDF 文档（包括扫描件、表格、多栏排版）的高质量解析。
+                            </p>
+                        </div>
+                        
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h5 class="font-bold text-blue-700 mb-2">智能文件处理</h5>
+                            <p class="text-gray-700 text-sm">
+                                根据文件类型自动选择最优解析引擎，并提供预览、修正、手动确认的交互流程。
+                            </p>
+                        </div>
+                        
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h5 class="font-bold text-blue-700 mb-2">任务异步与状态管理</h5>
+                            <p class="text-gray-700 text-sm">
+                                后台批量处理，状态实时更新，用户可切换到其他任务。
+                            </p>
+                        </div>
+                        
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h5 class="font-bold text-blue-700 mb-2">代码健壮性</h5>
+                            <p class="text-gray-700 text-sm">
+                                解决了大文件内存溢出、API 熔断重试、Windows 进程管理、文件编码、数据库事务等多个工程化难题。
+                            </p>
+                        </div>
+                        
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h5 class="font-bold text-blue-700 mb-2">用户体验</h5>
+                            <p class="text-gray-700 text-sm">
+                                流式回答、实时日志、可视化图谱、可编辑三元组、多级缓存，全面提升了交互性和易用性。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-8">
+                    <h4 class="text-xl font-bold text-secondary mb-4">五、项目状态</h4>
+                    <div class="bg-green-50 p-6 rounded-lg border-l-4 border-green-500 mb-6">
+                        <ul class="list-disc list-inside text-gray-700 space-y-2">
+                            <li><span class="font-bold">核心问答链路：</span>已通，具备强大的 RAG 能力。</li>
+                            <li><span class="font-bold">知识构建流程：</span>已实现自动解析、三元组提取、后台处理、可视化预览、操作（增删改），形成完整的知识获取与管理闭环。</li>
+                            <li><span class="font-bold">用户体验：</span>具备聊天历史、任务管理、文件管理、图谱可视化等交互功能。</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- 项目状态图片展示 -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-light p-4 rounded-lg border border-gray-200">
+                            <h5 class="font-bold text-secondary mb-3">系统界面展示</h5>
+                            <div class="bg-white p-4 rounded shadow-sm flex justify-center">
+                                <img src="images/9.1.png" alt="中医知识问答系统主界面" class="w-full max-w-md h-48 object-contain rounded">
+                            </div>
+                            <p class="text-gray-600 text-sm mt-3 text-center">
+                                图1：中医知识问答系统主界面
+                            </p>
+                        </div>
+                        
+                        <div class="bg-light p-4 rounded-lg border border-gray-200">
+                            <h5 class="font-bold text-secondary mb-3">知识图谱可视化</h5>
+                            <div class="bg-white p-4 rounded shadow-sm flex justify-center">
+                                <img src="images/9.2.png" alt="中医知识图谱可视化展示" class="w-full max-w-md h-48 object-contain rounded">
+                            </div>
+                            <p class="text-gray-600 text-sm mt-3 text-center">
+                                图2：中医知识图谱可视化展示
+                            </p>
+                        </div>
+                        
+                        <div class="bg-light p-4 rounded-lg border border-gray-200">
+                            <h5 class="font-bold text-secondary mb-3">文档处理模块</h5>
+                            <div class="bg-white p-4 rounded shadow-sm flex justify-center">
+                                <img src="images/9.3.png" alt="文档智能处理模块界面" class="w-full max-w-md h-48 object-contain rounded">
+                            </div>
+                            <p class="text-gray-600 text-sm mt-3 text-center">
+                                图3：文档智能处理模块界面
+                            </p>
+                        </div>
+                        
+                        <div class="bg-light p-4 rounded-lg border border-gray-200">
+                            <h5 class="font-bold text-secondary mb-3">多模态交互</h5>
+                            <div class="bg-white p-4 rounded shadow-sm flex justify-center">
+                                <img src="images/9.4.png" alt="多模态输入与OCR处理结果" class="w-full max-w-md h-48 object-contain rounded">
+                            </div>
+                            <p class="text-gray-600 text-sm mt-3 text-center">
+                                图4：多模态输入与OCR处理结果
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-8">
+                    <h4 class="text-xl font-bold text-secondary mb-4">六、未来可扩展性</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <h5 class="font-bold text-purple-700 mb-2">用户认证系统</h5>
+                            <p class="text-gray-700 text-sm">
+                                集成 Flask-Login，实现用户注册、登录、个人数据隔离（聊天记录、上传文件、图谱访问权限）。
+                            </p>
+                        </div>
+                        
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <h5 class="font-bold text-purple-700 mb-2">更精细的 Reranker</h5>
+                            <p class="text-gray-700 text-sm">
+                                训练领域内 Reranker 模型，提高中医药知识的召回精度。
+                            </p>
+                        </div>
+                        
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <h5 class="font-bold text-purple-700 mb-2">图谱可视化增强</h5>
+                            <p class="text-gray-700 text-sm">
+                                引入 Cypher 查询结果可视化，支持更复杂的图谱探索。
+                            </p>
+                        </div>
+                        
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <h5 class="font-bold text-purple-700 mb-2">部署与监控</h5>
+                            <p class="text-gray-700 text-sm">
+                                使用 Gunicorn/Uvicorn + Docker 进行生产环境部署，集成日志监控。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <p class="mt-4 text-gray-500 text-sm">更新时间：2025年12月19日</p>
+            </div>
+        </div>
+    </section>
+
     <!-- 第八周进展 -->
     <section id="week8Progress" class="py-12 bg-light hidden">
         <div class="container mx-auto px-4">
@@ -1663,6 +1929,7 @@
             const week6Progress = document.getElementById('week6Progress');
             const week7Progress = document.getElementById('week7Progress');
             const week8Progress = document.getElementById('week8Progress');
+            const week9Progress = document.getElementById('week9Progress');
             
             // 第一周特有内容
             const week1BooksList = document.getElementById('week1BooksList');
@@ -1694,6 +1961,7 @@
                 if (week6Progress) week6Progress.classList.add('hidden');
                 if (week7Progress) week7Progress.classList.add('hidden');
                 if (week8Progress) week8Progress.classList.add('hidden');
+                if (week9Progress) week9Progress.classList.add('hidden');
                 
                 // 显示选中的周内容
                 if (weekNumber === 1) {
@@ -1714,6 +1982,8 @@
                     week7Progress.classList.remove('hidden');
                 } else if (weekNumber === 8 && week8Progress) {
                     week8Progress.classList.remove('hidden');
+                } else if (weekNumber === 9 && week9Progress) {
+                    week9Progress.classList.remove('hidden');
                 }
             }
             
