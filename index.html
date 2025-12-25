@@ -245,6 +245,7 @@
                         <option value="week7">第七周</option>
                         <option value="week8">第八周</option>
                         <option value="week9">第九周</option>
+                        <option value="week10">第十周</option>
                     </select>
                     <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                         <i class="fa fa-chevron-down"></i>
@@ -831,6 +832,187 @@
     </section>
     
     <!-- 第九周进展 -->
+    <!-- 第十周进展 -->
+    <section id="week10Progress" class="py-12 bg-light hidden">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-serif font-bold text-primary mb-4">第十周科研进展</h2>
+                <p class="text-xl text-gray-600">系统安全性与代码质量优化</p>
+                <div class="w-24 h-1 bg-secondary mx-auto mt-4"></div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-lg p-8">
+                <div class="flex items-center mb-6">
+                    <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white">
+                        <i class="fa fa-shield fa-lg"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 ml-4">本周科研进展（2025年12月26日）</h3>
+                </div>
+                
+                <div class="mb-8">
+                    <h4 class="text-xl font-bold text-secondary mb-4">一、项目改动总结</h4>
+                    
+                    <div class="bg-light p-6 rounded-lg mb-6">
+                        <h5 class="font-bold text-primary mb-4">1. API安全性改进 ✅</h5>
+                        
+                        <div class="mb-6">
+                            <h6 class="font-bold text-gray-800 mb-2">改动前（前代代码）：</h6>
+                            <div class="bg-gray-900 text-gray-200 p-4 rounded-lg overflow-x-auto">
+                                <pre class="font-mono text-sm"># 前代代码中API key是硬编码的
+headers = {
+    "Authorization": "Bearer sk-xxxxxxxxxxxxxxxxxxxxx",  # ❌ 硬编码
+    "Content-Type": "application/json"
+}</pre>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <h6 class="font-bold text-gray-800 mb-2">改动后（当前代码）：</h6>
+                            <div class="bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto">
+                                <pre class="font-mono text-sm"># 当前代码使用配置文件和环境变量
+if config:
+    self.API_KEY = config.SILICON_FLOW_KEY  # ✅ 从配置文件读取
+    self.BASE_URL = config.SILICON_FLOW_BASE
+else:
+    self.API_KEY = os.getenv("SILICON_FLOW_KEY", "")  # ✅ 从环境变量读取
+    self.BASE_URL = os.getenv("SILICON_FLOW_BASE", "https://api.siliconflow.cn/v1")</pre>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-green-50 p-4 rounded-lg border-l-4 border-green-500">
+                            <h6 class="font-bold text-green-800 mb-2">安全性提升：</h6>
+                            <ul class="list-disc list-inside text-gray-700 space-y-1">
+                                <li><span class="font-bold">✅</span> API key不再硬编码在代码中</li>
+                                <li><span class="font-bold">✅</span> 支持从配置文件读取</li>
+                                <li><span class="font-bold">✅</span> 支持从环境变量读取</li>
+                                <li><span class="font-bold">✅</span> 避免了敏感信息泄露到代码仓库</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-light p-6 rounded-lg">
+                        <h5 class="font-bold text-primary mb-4">2. 上下文记忆功能实现 ✅</h5>
+                        
+                        <div class="mb-6">
+                            <h6 class="font-bold text-gray-800 mb-2">功能说明：</h6>
+                            <p class="text-gray-700 mb-4">
+                                实现了上下文记忆功能，允许用户对问题进行追问，系统能够根据之前的对话历史提供连贯的回答。这大大提升了用户体验，使中医知识问答更加自然流畅。
+                            </p>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <h6 class="font-bold text-gray-800 mb-2">核心实现代码：</h6>
+                            <div class="bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto">
+                                <pre class="font-mono text-sm"># 上下文记忆功能核心实现
+class ContextManager:
+    def __init__(self, max_history_length=5):
+        self.max_history_length = max_history_length
+        self.conversation_history = []
+    
+    def add_message(self, role, content):
+        """添加消息到对话历史"""
+        self.conversation_history.append({"role": role, "content": content})
+        # 保持历史记录在最大长度内
+        if len(self.conversation_history) > self.max_history_length * 2:
+            self.conversation_history = self.conversation_history[-self.max_history_length * 2:]
+    
+    def get_context(self):
+        """获取对话上下文"""
+        return self.conversation_history
+    
+    def clear_context(self):
+        """清空对话历史"""
+        self.conversation_history = []</pre>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-500">
+                            <h6 class="font-bold text-blue-800 mb-2">用户体验提升：</h6>
+                            <ul class="list-disc list-inside text-gray-700 space-y-1">
+                                <li><span class="font-bold">✅</span> 支持多轮对话，保持上下文连贯性</li>
+                                <li><span class="font-bold">✅</span> 智能记忆最近的对话内容</li>
+                                <li><span class="font-bold">✅</span> 允许用户进行追问和深入探讨</li>
+                                <li><span class="font-bold">✅</span> 提供更自然的问答交互体验</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-8">
+                    <h4 class="text-xl font-bold text-secondary mb-4">二、代码质量提升</h4>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h5 class="font-bold text-blue-700 mb-2">1. 统一的异常处理机制</h5>
+                            <p class="text-gray-700 text-sm">
+                                建立了全局异常处理装饰器，统一捕获和处理各类异常，提供友好的错误信息，同时确保敏感错误详情不会泄露给用户。
+                            </p>
+                        </div>
+                        
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h5 class="font-bold text-blue-700 mb-2">2. 完善的日志系统</h5>
+                            <p class="text-gray-700 text-sm">
+                                集成了结构化日志系统，支持不同级别的日志记录（DEBUG, INFO, WARNING, ERROR），便于问题排查和系统监控。
+                            </p>
+                        </div>
+                        
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h5 class="font-bold text-blue-700 mb-2">3. 代码模块化重构</h5>
+                            <p class="text-gray-700 text-sm">
+                                对核心功能进行了模块化重构，提高了代码的可维护性和可测试性，便于团队协作和后续功能扩展。
+                            </p>
+                        </div>
+                        
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h5 class="font-bold text-blue-700 mb-2">4. 单元测试覆盖</h5>
+                            <p class="text-gray-700 text-sm">
+                                为关键模块编写了单元测试，确保代码质量和功能稳定性，提高了系统的可靠性。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+
+                
+                <div class="mb-8">
+                    <h4 class="text-xl font-bold text-secondary mb-4">四、下周工作计划</h4>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                            <h5 class="font-bold text-yellow-700 mb-2">1. 用户认证系统完善</h5>
+                            <p class="text-gray-700 text-sm">
+                                实现基于JWT的用户认证系统，支持用户注册、登录、权限管理，确保数据安全和用户隐私。
+                            </p>
+                        </div>
+                        
+                        <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                            <h5 class="font-bold text-yellow-700 mb-2">2. 性能优化与压测</h5>
+                            <p class="text-gray-700 text-sm">
+                                对系统进行性能分析和优化，进行压力测试，确保系统在高并发场景下的稳定性和响应速度。
+                            </p>
+                        </div>
+                        
+                        <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                            <h5 class="font-bold text-yellow-700 mb-2">3. 文档完善</h5>
+                            <p class="text-gray-700 text-sm">
+                                编写详细的API文档、部署文档和用户手册，便于其他开发者理解和使用系统。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-light p-6 rounded-lg border-t-4 border-primary">
+                    <h4 class="font-bold text-primary mb-3">总结</h4>
+                    <p class="text-gray-700">
+                        本周主要聚焦于系统安全性和代码质量的提升，通过API安全性改进、上下文记忆功能实现、代码模块化重构等工作，显著提高了系统的安全性、稳定性和用户体验。下周将继续完善用户认证系统、进行性能优化与压测，并完善相关文档。
+                    </p>
+                </div>
+                
+                <p class="mt-4 text-gray-500 text-sm">更新时间：2025年12月26日</p>
+            </div>
+        </div>
+    </section>
+
     <section id="week9Progress" class="py-12 bg-light hidden">
         <div class="container mx-auto px-4">
             <div class="text-center mb-12">
@@ -1930,6 +2112,7 @@
             const week7Progress = document.getElementById('week7Progress');
             const week8Progress = document.getElementById('week8Progress');
             const week9Progress = document.getElementById('week9Progress');
+            const week10Progress = document.getElementById('week10Progress');
             
             // 第一周特有内容
             const week1BooksList = document.getElementById('week1BooksList');
@@ -1962,6 +2145,7 @@
                 if (week7Progress) week7Progress.classList.add('hidden');
                 if (week8Progress) week8Progress.classList.add('hidden');
                 if (week9Progress) week9Progress.classList.add('hidden');
+                if (week10Progress) week10Progress.classList.add('hidden');
                 
                 // 显示选中的周内容
                 if (weekNumber === 1) {
@@ -1984,6 +2168,8 @@
                     week8Progress.classList.remove('hidden');
                 } else if (weekNumber === 9 && week9Progress) {
                     week9Progress.classList.remove('hidden');
+                } else if (weekNumber === 10 && week10Progress) {
+                    week10Progress.classList.remove('hidden');
                 }
             }
             
