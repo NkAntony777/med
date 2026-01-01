@@ -2279,20 +2279,7 @@ class ContextManager:
                             element.classList.add('active');
                         }, delay);
                     }
-                    // 下载报告功能
-        const downloadReportBtn = document.getElementById('downloadReportBtn');
-        if (downloadReportBtn) {
-            downloadReportBtn.addEventListener('click', function() {
-                // 创建一个临时链接来下载文件
-                const link = document.createElement('a');
-                link.href = 'images/baogao.pdf';
-                link.download = '中医知识问答大模型科研报告.pdf';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            });
-        }
-    });
+                });
             }
             
             // 初始检查
@@ -2321,34 +2308,8 @@ class ContextManager:
                         })
                         .catch(err => {
                             console.error('无法复制文本: ', err);
-                            // 下载报告功能
-        const downloadReportBtn = document.getElementById('downloadReportBtn');
-        if (downloadReportBtn) {
-            downloadReportBtn.addEventListener('click', function() {
-                // 创建一个临时链接来下载文件
-                const link = document.createElement('a');
-                link.href = 'images/baogao.pdf';
-                link.download = '中医知识问答大模型科研报告.pdf';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            });
-        }
-    });
-                    // 下载报告功能
-        const downloadReportBtn = document.getElementById('downloadReportBtn');
-        if (downloadReportBtn) {
-            downloadReportBtn.addEventListener('click', function() {
-                // 创建一个临时链接来下载文件
-                const link = document.createElement('a');
-                link.href = 'images/baogao.pdf';
-                link.download = '中医知识问答大模型科研报告.pdf';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            });
-        }
-    });
+                        });
+                });
             }
             
             // 获取所有周内容元素
@@ -2385,20 +2346,7 @@ class ContextManager:
                 // 隐藏所有内容
                 week1Elements.forEach(element => {
                     if (element) element.classList.add('hidden');
-                    // 下载报告功能
-        const downloadReportBtn = document.getElementById('downloadReportBtn');
-        if (downloadReportBtn) {
-            downloadReportBtn.addEventListener('click', function() {
-                // 创建一个临时链接来下载文件
-                const link = document.createElement('a');
-                link.href = 'images/baogao.pdf';
-                link.download = '中医知识问答大模型科研报告.pdf';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            });
-        }
-    });
+                });
                 
                 if (week2Content) week2Content.classList.add('hidden');
                 if (week3Content) week3Content.classList.add('hidden');
@@ -2415,20 +2363,7 @@ class ContextManager:
                 if (weekNumber === 1) {
                     week1Elements.forEach(element => {
                         if (element) element.classList.remove('hidden');
-                        // 下载报告功能
-        const downloadReportBtn = document.getElementById('downloadReportBtn');
-        if (downloadReportBtn) {
-            downloadReportBtn.addEventListener('click', function() {
-                // 创建一个临时链接来下载文件
-                const link = document.createElement('a');
-                link.href = 'images/baogao.pdf';
-                link.download = '中医知识问答大模型科研报告.pdf';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            });
-        }
-    });
+                    });
                 } else if (weekNumber === 2 && week2Content) {
                     week2Content.classList.remove('hidden');
                 } else if (weekNumber === 3 && week3Content) {
@@ -2457,39 +2392,37 @@ class ContextManager:
                 weekSelector.addEventListener('change', function() {
                     const selectedWeek = parseInt(this.value.replace('week', ''));
                     showWeekContent(selectedWeek);
-                    // 下载报告功能
-        const downloadReportBtn = document.getElementById('downloadReportBtn');
-        if (downloadReportBtn) {
-            downloadReportBtn.addEventListener('click', function() {
-                // 创建一个临时链接来下载文件
-                const link = document.createElement('a');
-                link.href = 'images/baogao.pdf';
-                link.download = '中医知识问答大模型科研报告.pdf';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            });
-        }
-    });
+                });
                 
                 // 默认显示第一周内容
                 showWeekContent(1);
                 weekSelector.value = 'week1';
             }
-            // 下载报告功能
-        const downloadReportBtn = document.getElementById('downloadReportBtn');
-        if (downloadReportBtn) {
-            downloadReportBtn.addEventListener('click', function() {
-                // 创建一个临时链接来下载文件
-                const link = document.createElement('a');
-                link.href = 'images/baogao.pdf';
-                link.download = '中医知识问答大模型科研报告.pdf';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            });
-        }
-    });
+            
+            // 下载报告功能 - 只保留一个完整的实现
+            const downloadReportBtn = document.getElementById('downloadReportBtn');
+            if (downloadReportBtn) {
+                downloadReportBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // 检测是否为移动设备
+                    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                    
+                    // 对于移动设备，直接打开PDF在新窗口，让用户自行保存
+                    if (isMobile) {
+                        window.open('images/baogao.pdf', '_blank');
+                    } else {
+                        // 对于桌面设备，使用下载属性
+                        const link = document.createElement('a');
+                        link.href = 'images/baogao.pdf';
+                        link.download = '中医知识问答大模型科研报告.pdf';
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                    }
+                });
+            }
+        });
     </script>
 
 
