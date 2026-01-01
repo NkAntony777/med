@@ -221,6 +221,13 @@
                         <p class="text-gray-700">将训练好的模型部署为可用的中医知识问答系统</p>
                     </div>
                 </div>
+                
+                <div class="timeline-item timeline-left scroll-reveal" data-delay="800">
+                    <div class="bg-light p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-bold text-primary mb-2">阶段五：RAG系统优化</h3>
+                        <p class="text-gray-700">融合知识图谱与向量检索，优化中医知识问答RAG系统</p>
+                    </div>
+                </div>
             </div>
     </section>
 
@@ -246,6 +253,7 @@
                         <option value="week8">第八周</option>
                         <option value="week9">第九周</option>
                         <option value="week10">第十周</option>
+                        <option value="week11">第十一周</option>
                     </select>
                     <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                         <i class="fa fa-chevron-down"></i>
@@ -1009,6 +1017,208 @@ class ContextManager:
                 </div>
                 
                 <p class="mt-4 text-gray-500 text-sm">更新时间：2025年12月26日</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 第十一周进展 -->
+    <section id="week11Progress" class="py-12 bg-light hidden">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-serif font-bold text-primary mb-4">第十一周科研进展</h2>
+                <p class="text-xl text-gray-600">文献阅读与RAG系统优化研究</p>
+                <div class="w-24 h-1 bg-secondary mx-auto mt-4"></div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-lg p-8">
+                <div class="flex items-center mb-6">
+                    <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white">
+                        <i class="fa fa-search fa-lg"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 ml-4">本周科研进展（2026年1月2日）</h3>
+                </div>
+                
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
+                    <p class="text-gray-700">
+                        <i class="fa fa-info-circle text-blue-500 mr-2"></i>
+                        <span class="font-bold">本周重点：</span>专注于文献的阅读和研究工作，深入探索中医知识问答RAG系统的优化方向，并产出了一份完整的优化研究报告。
+                    </p>
+                </div>
+                
+                <div class="mb-8">
+                    <h4 class="text-xl font-bold text-secondary mb-4">一、研究背景与核心问题</h4>
+                    
+                    <div class="bg-light p-6 rounded-lg">
+                        <p class="text-gray-700 mb-4">
+                            <span class="font-bold">研究目标：</span>构建面向中医领域的检索增强生成系统，融合知识图谱（GraphRAG）与向量检索，应对中医知识的结构化与语义复杂性。
+                        </p>
+                        
+                        <h5 class="font-bold text-primary mb-3 mt-6">关键挑战：</h5>
+                        <ul class="list-disc list-inside text-gray-700 space-y-2">
+                            <li>知识图谱维护成本高，存在"源头污染"风险</li>
+                            <li>混合检索导致系统延迟高、"上下文爆炸"（信息冗余）</li>
+                            <li>中医术语歧义性强（一词多义、同形异义）</li>
+                            <li>多源异构结果融合困难，生成答案可信度不足</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="mb-8">
+                    <h4 class="text-xl font-bold text-secondary mb-4">二、核心技术路线与优化策略</h4>
+                    
+                    <div class="bg-light p-6 rounded-lg mb-6">
+                        <h5 class="font-bold text-primary mb-3">1. 检索器增强</h5>
+                        
+                        <div class="mb-4">
+                            <h6 class="font-bold text-gray-800 mb-2">高级图谱检索：</h6>
+                            <p class="text-gray-700">
+                                提出 HyRe-TCM框架（中医混合推理与探索框架），采用"模式约束路径发现 + LLM验证"两阶段推理，平衡效率与准确性。
+                            </p>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h6 class="font-bold text-gray-800 mb-2">统一表示学习：</h6>
+                            <p class="text-gray-700">
+                                探索知识图谱嵌入与文本嵌入的对齐，构建统一语义空间，实现单次检索替代并行检索。
+                            </p>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h6 class="font-bold text-gray-800 mb-2">精细化向量检索：</h6>
+                            <ul class="list-disc list-inside text-gray-700 ml-4 space-y-1">
+                                <li>多向量表示（ColBERT）：针对术语歧义，实现词元级细粒度匹配</li>
+                                <li>学习型稀疏检索（SPLADE）：提升专业术语的精确匹配与语义扩展能力</li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h6 class="font-bold text-gray-800 mb-2">智能混合检索流程：</h6>
+                            <p class="text-gray-700">
+                                采用 三阶段检索（并行召回→融合与条件化图谱增强→重排），动态触发图谱检索以控制开销。
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-light p-6 rounded-lg mb-6">
+                        <h5 class="font-bold text-primary mb-3">2. 检索后处理优化</h5>
+                        
+                        <div class="mb-4">
+                            <h6 class="font-bold text-gray-800 mb-2">智能融合：</h6>
+                            <p class="text-gray-700">
+                                使用 倒数排序融合（RRF） 合并结果，引入 条件化图谱触发机制。
+                            </p>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h6 class="font-bold text-gray-800 mb-2">深度重排：</h6>
+                            <p class="text-gray-700">
+                                采用 级联式重排架构（监督式交叉编码器 + 轻量级LLM），结合多维度文档增强技术。
+                            </p>
+                        </div>
+                        
+                        <div>
+                            <h6 class="font-bold text-gray-800 mb-2">上下文精炼：</h6>
+                            <p class="text-gray-700">
+                                通过 查询聚焦摘要（QFS） 生成高密度、低噪声的上下文，保留关键证据引文。
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-light p-6 rounded-lg">
+                        <h5 class="font-bold text-primary mb-3">3. 生成端增强</h5>
+                        
+                        <div class="mb-4">
+                            <h6 class="font-bold text-gray-800 mb-2">领域化模型微调：</h6>
+                            <p class="text-gray-700">
+                                构建中医多任务指令数据集，采用 课程学习 与 超高失活率微调，提升鲁棒性。
+                            </p>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h6 class="font-bold text-gray-800 mb-2">动态提示工程：</h6>
+                            <p class="text-gray-700">
+                                根据上下文自适应调整提示模板，引入 链式思维（CoT） 引导复杂推理。
+                            </p>
+                        </div>
+                        
+                        <div>
+                            <h6 class="font-bold text-gray-800 mb-2">答案溯源与可信增强：</h6>
+                            <p class="text-gray-700">
+                                实现 粒度化引用标记、来源置信度评估与交互式可视化溯源界面。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-8">
+                    <h4 class="text-xl font-bold text-secondary mb-4">三、综合技术路线（四阶段架构）</h4>
+                    
+                    <div class="relative overflow-hidden rounded-lg border border-gray-200">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-accent to-secondary"></div>
+                        <div class="p-6">
+                            <ol class="list-decimal list-inside text-gray-700 space-y-4">
+                                <li class="font-medium">
+                                    <span class="text-primary">统一与多维知识表示：</span>
+                                    <span class="text-gray-700">构建对齐的嵌入空间，优化术语表示</span>
+                                </li>
+                                <li class="font-medium">
+                                    <span class="text-primary">智能多路检索与融合：</span>
+                                    <span class="text-gray-700">实现条件化图谱检索与级联重排</span>
+                                </li>
+                                <li class="font-medium">
+                                    <span class="text-primary">高密度上下文精炼：</span>
+                                    <span class="text-gray-700">通过QFS生成压缩、连贯的上下文</span>
+                                </li>
+                                <li class="font-medium">
+                                    <span class="text-primary">可信赖生成与溯源：</span>
+                                    <span class="text-gray-700">结合微调、动态提示与溯源机制，输出专业可追溯的答案</span>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-8">
+                    <h4 class="text-xl font-bold text-secondary mb-4">四、未来研究展望</h4>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                            <p class="text-gray-700">
+                                探索 <span class="font-bold">效率与可解释性的平衡</span>（如轻量图验证+统一检索）
+                            </p>
+                        </div>
+                        
+                        <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                            <p class="text-gray-700">
+                                构建 <span class="font-bold">自动化知识图谱构建的风险控制框架</span>（人机回圈验证）
+                            </p>
+                        </div>
+                        
+                        <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                            <p class="text-gray-700">
+                                推进 <span class="font-bold">生成模型与检索上下文的深度对齐</span>，发展评估答案逻辑严谨性的新基准
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 下载按钮 -->
+                <div class="text-center mt-8">
+                    <button id="downloadReportBtn" class="bg-primary hover:bg-accent text-white font-bold py-3 px-6 rounded-lg shadow-lg transition-all duration-300 flex items-center justify-center mx-auto">
+                        <i class="fa fa-download mr-2"></i>
+                        下载完整研究报告
+                    </button>
+                    <p class="text-gray-600 text-sm mt-2">中医知识问答RAG系统优化：研究内容与技术路线</p>
+                </div>
+                
+                <div class="bg-light p-6 rounded-lg border-t-4 border-primary mt-8">
+                    <h4 class="font-bold text-primary mb-3">总结</h4>
+                    <p class="text-gray-700">
+                        本周通过深入的文献研究，明确了中医知识问答RAG系统面临的核心挑战，并提出了全面的优化策略。研究聚焦于检索器增强、检索后处理优化和生成端增强三大方向，构建了四阶段综合技术架构。这些研究成果为后续系统优化提供了清晰的理论指导和技术路线，将显著提升中医知识问答系统的性能和用户体验。
+                    </p>
+                </div>
+                
+                <p class="mt-4 text-gray-500 text-sm">更新时间：2026年1月2日</p>
             </div>
         </div>
     </section>
@@ -2113,6 +2323,7 @@ class ContextManager:
             const week8Progress = document.getElementById('week8Progress');
             const week9Progress = document.getElementById('week9Progress');
             const week10Progress = document.getElementById('week10Progress');
+            const week11Progress = document.getElementById('week11Progress');
             
             // 第一周特有内容
             const week1BooksList = document.getElementById('week1BooksList');
@@ -2146,6 +2357,7 @@ class ContextManager:
                 if (week8Progress) week8Progress.classList.add('hidden');
                 if (week9Progress) week9Progress.classList.add('hidden');
                 if (week10Progress) week10Progress.classList.add('hidden');
+                if (week11Progress) week11Progress.classList.add('hidden');
                 
                 // 显示选中的周内容
                 if (weekNumber === 1) {
@@ -2170,6 +2382,8 @@ class ContextManager:
                     week9Progress.classList.remove('hidden');
                 } else if (weekNumber === 10 && week10Progress) {
                     week10Progress.classList.remove('hidden');
+                } else if (weekNumber === 11 && week11Progress) {
+                    week11Progress.classList.remove('hidden');
                 }
             }
             
