@@ -254,6 +254,7 @@
                         <option value="week9">第九周</option>
                         <option value="week10">第十周</option>
                         <option value="week11">第十一周</option>
+                        <option value="week12">第十二周</option>
                     </select>
                     <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                         <i class="fa fa-chevron-down"></i>
@@ -1219,6 +1220,197 @@ class ContextManager:
                 </div>
                 
                 <p class="mt-4 text-gray-500 text-sm">更新时间：2026年1月2日</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="week12Progress" class="py-12 bg-light hidden">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-serif font-bold text-primary mb-4">第十二周科研进展</h2>
+                <p class="text-xl text-gray-600">中医领域知识图谱构建与 RAG 优化探索</p>
+                <div class="w-24 h-1 bg-secondary mx-auto mt-4"></div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-lg p-8">
+                <div class="flex items-center mb-6">
+                    <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white">
+                        <i class="fa fa-search fa-lg"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 ml-4">本周科研进展（2026年1月8日）</h3>
+                </div>
+                
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
+                    <p class="text-gray-700">
+                        <i class="fa fa-info-circle text-blue-500 mr-2"></i>
+                        <span class="font-bold">项目阶段：</span>关键技术路线验证与选型
+                    </p>
+                </div>
+                
+                <div class="bg-light p-6 rounded-lg mb-6">
+                    <p class="text-gray-700 font-bold mb-2">核心结论：</p>
+                    <p class="text-gray-700">
+                        经过多轮对比实验，确认在中医垂直领域，<span class="font-bold text-primary">高质量 LLM（大模型）的直接语义理解能力目前不可替代</span>。小模型蒸馏（FPE）、硬性本体映射（Wikontic）及 Agentic 模式均存在显著短板。后续重心将回归"基于 LLM 的高质量提取+后处理优化"。
+                    </p>
+                </div>
+                
+                <div class="mb-8">
+                    <h4 class="text-xl font-bold text-secondary mb-4">一、本周文献阅读与理论基础</h4>
+                    <p class="text-gray-700 mb-4">
+                        本周重点研读了以下论文，旨在寻找解决 RAG 系统中"幻觉、成本、稀疏性"问题的方案，并尝试将其迁移至中医场景：
+                    </p>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-light p-4 rounded-lg">
+                            <h5 class="font-bold text-primary mb-2">《Wikontic: Constructing Wikidata-Aligned...》</h5>
+                            <p class="text-gray-700 mb-2"><span class="font-bold">核心思想：</span>利用外部本体（Ontology）约束 LLM，防止生成结构混乱的图谱。</p>
+                            <p class="text-gray-700"><span class="font-bold">借鉴点：</span>尝试引入预设的中医 Schema 来规范提取。</p>
+                        </div>
+                        
+                        <div class="bg-light p-4 rounded-lg">
+                            <h5 class="font-bold text-primary mb-2">《Joint extraction of biomedical overlapping triples... (FPE)》</h5>
+                            <p class="text-gray-700 mb-2"><span class="font-bold">核心思想：</span>通过特征分区编码（FPE）解决生物医学中的重叠三元组问题，适合训练小模型。</p>
+                            <p class="text-gray-700"><span class="font-bold">借鉴点：</span>尝试蒸馏 LLM 数据训练 BERT 级小模型，以降低 Token 成本。</p>
+                        </div>
+                        
+                        <div class="bg-light p-4 rounded-lg">
+                            <h5 class="font-bold text-primary mb-2">《KGGen: Extracting Knowledge Graphs...》</h5>
+                            <p class="text-gray-700 mb-2"><span class="font-bold">核心思想：</span>引入聚类和实体消歧机制，解决图谱稀疏问题。</p>
+                            <p class="text-gray-700"><span class="font-bold">借鉴点：</span>尝试对提取后的实体进行归一化和聚类。</p>
+                        </div>
+                        
+                        <div class="bg-light p-4 rounded-lg">
+                            <h5 class="font-bold text-primary mb-2">《HiFi-RAG》 & 《Retrieval Augmented Question Answering》</h5>
+                            <p class="text-gray-700"><span class="font-bold">核心思想：</span>分级过滤与自适应检索，解决噪音问题。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-8">
+                    <h4 class="text-xl font-bold text-secondary mb-4">二、实验探索与关键发现（Negative Results Analysis）</h4>
+                    <p class="text-gray-700 mb-4">
+                        本周针对上述理论进行了四条技术路径的验证，<span class="font-bold text-red-600">结果显示大多数通用领域的降本策略在中医场景下出现了"水土不服"</span>。
+                    </p>
+                    
+                    <div class="space-y-6">
+                        <div class="border-l-4 border-red-500 pl-4">
+                            <h5 class="font-bold text-primary mb-3">1. 路径一验证：基于预设本体的实体映射（Wikontic 策略）</h5>
+                            <div class="bg-red-50 p-4 rounded-lg mb-3">
+                                <p class="text-gray-700 font-bold mb-2">实验设计：</p>
+                                <p class="text-gray-700">预定义中医核心本体（如"证型"、"方剂"、"归经"），强制要求提取结果映射到该 Schema。</p>
+                            </div>
+                            <div class="bg-red-50 p-4 rounded-lg mb-3">
+                                <p class="text-gray-700 font-bold mb-2">实验结果：</p>
+                                <p class="text-gray-700 text-red-600 font-bold">效果劣于 LLM 直接提取。</p>
+                            </div>
+                            <div class="bg-red-50 p-4 rounded-lg">
+                                <p class="text-gray-700 font-bold mb-2">原因分析：</p>
+                                <ul class="list-disc list-inside text-gray-700 space-y-2">
+                                    <li><span class="font-bold">实体高重合度与模糊性：</span>中医术语存在极高的语义重叠（如"气虚"既是病机也是症状，"甘草"既是药物也是调和剂）。预设的硬性规则无法处理这种动态的上下文变化。</li>
+                                    <li><span class="font-bold">本体对齐失效：</span>强行映射导致了大量语义丢失（Under-specification），不如 LLM 凭借其庞大的参数量进行的模糊语义理解来得准确。</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="border-l-4 border-red-500 pl-4">
+                            <h5 class="font-bold text-primary mb-3">2. 路径二验证：FPE 小模型蒸馏（FPE 策略）</h5>
+                            <div class="bg-red-50 p-4 rounded-lg mb-3">
+                                <p class="text-gray-700 font-bold mb-2">实验设计：</p>
+                                <p class="text-gray-700">利用 LLM 生成标注数据，训练基于 BERT 的 FPE 模型进行三元组抽取，试图替代 LLM 以降低 Token 成本。</p>
+                            </div>
+                            <div class="bg-red-50 p-4 rounded-lg mb-3">
+                                <p class="text-gray-700 font-bold mb-2">实验结果：</p>
+                                <p class="text-gray-700 text-red-600 font-bold">模型性能不达标，且维护成本高。</p>
+                            </div>
+                            <div class="bg-red-50 p-4 rounded-lg">
+                                <p class="text-gray-700 font-bold mb-2">原因分析：</p>
+                                <ul class="list-disc list-inside text-gray-700 space-y-2">
+                                    <li><span class="font-bold">数据噪音（Garbage In, Garbage Out）：</span>LLM 生成的训练数据本身包含约 10%-20% 的幻觉或错误，小模型在训练中完美拟合了这些噪音。</li>
+                                    <li><span class="font-bold">推理能力缺失：</span>中医古文或医案往往省略主语（如"治以..."，省略了"本方"），小模型缺乏补全上下文的推理能力，导致抽取的三元组破碎。</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="border-l-4 border-red-500 pl-4">
+                            <h5 class="font-bold text-primary mb-3">3. 路径三验证：Embedding 语义检索优化</h5>
+                            <div class="bg-red-50 p-4 rounded-lg mb-3">
+                                <p class="text-gray-700 font-bold mb-2">实验设计：</p>
+                                <p class="text-gray-700">使用通用或医学微调的 Embedding 模型进行实体对齐和检索，减少 LLM 介入。</p>
+                            </div>
+                            <div class="bg-red-50 p-4 rounded-lg mb-3">
+                                <p class="text-gray-700 font-bold mb-2">实验结果：</p>
+                                <p class="text-gray-700 text-red-600 font-bold">淘汰。</p>
+                            </div>
+                            <div class="bg-red-50 p-4 rounded-lg">
+                                <p class="text-gray-700 font-bold mb-2">原因分析：</p>
+                                <p class="text-gray-700"><span class="font-bold">世界知识匮乏：</span>Embedding 模型（即使是 BGE/M3）只能计算向量相似度，缺乏"世界知识"。它认为"人参"和"萝卜"在向量空间很近（都是植物），但不知道中医里它们是"相恶"的。只有 LLM 的参数知识库能理解这种深层逻辑。</p>
+                            </div>
+                        </div>
+                        
+                        <div class="border-l-4 border-yellow-500 pl-4">
+                            <h5 class="font-bold text-primary mb-3">4. 路径四验证：图谱后处理优化（KGGen 策略）</h5>
+                            <div class="bg-yellow-50 p-4 rounded-lg mb-3">
+                                <p class="text-gray-700 font-bold mb-2">实验设计：</p>
+                                <p class="text-gray-700">在三元组提取后，增加聚类步骤进行实体消歧。</p>
+                            </div>
+                            <div class="bg-yellow-50 p-4 rounded-lg mb-3">
+                                <p class="text-gray-700 font-bold mb-2">实验结果：</p>
+                                <p class="text-gray-700 text-yellow-600 font-bold">部分采纳。</p>
+                            </div>
+                            <div class="bg-yellow-50 p-4 rounded-lg">
+                                <p class="text-gray-700 font-bold mb-2">分析：</p>
+                                <p class="text-gray-700">虽然 KGGen 原文的提取流程不如我自己优化的 Prompt 效果好，但其<span class="font-bold">"先提取，再聚类归一化"</span>的思想非常有价值。对于中医异名（如"元胡"与"延胡索"）的合并，不仅要靠提取阶段，必须依赖后处理。</p>
+                            </div>
+                        </div>
+                        
+                        <div class="border-l-4 border-red-500 pl-4">
+                            <h5 class="font-bold text-primary mb-3">5. 额外尝试：Agentic RAG（全代理模式）</h5>
+                            <div class="bg-red-50 p-4 rounded-lg mb-3">
+                                <p class="text-gray-700 font-bold mb-2">实验结果：</p>
+                                <p class="text-gray-700 text-red-600 font-bold">失败。</p>
+                            </div>
+                            <div class="bg-red-50 p-4 rounded-lg">
+                                <p class="text-gray-700 font-bold mb-2">痛点：</p>
+                                <ul class="list-disc list-inside text-gray-700 space-y-2">
+                                    <li><span class="font-bold">Token 爆炸：</span>Agent 为了规划路径、反思、调用工具，消耗了海量 Token，成本是普通 RAG 的 10 倍以上。</li>
+                                    <li><span class="font-bold">链路过长：</span>每一个步骤的微小误差在中医这种严谨场景下会被放大，导致最终输出偏离主题。</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-8">
+                    <h4 class="text-xl font-bold text-secondary mb-4">三、阶段性总结与下周规划</h4>
+                    
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-lg mb-6">
+                        <h5 class="font-bold text-primary mb-3">1. 核心洞察</h5>
+                        <p class="text-gray-700 mb-3">本周的失败实验揭示了一个关键事实：<span class="font-bold">中医领域的数字化是一个"高语境、强知识依赖"的任务。</span></p>
+                        <ul class="list-disc list-inside text-gray-700 space-y-2">
+                            <li><span class="font-bold">不能盲目降本：</span>试图用小模型（BERT）或简单的向量检索去替代 LLM 的推理能力，会导致准确率断崖式下跌。</li>
+                            <li><span class="font-bold">LLM 是核心生产力：</span>目前只有 LLM 的参数量能覆盖中医复杂的语义网络。我们应该接受较高的 Token 成本，换取高质量的图谱构建。</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-green-50 border-l-4 border-green-500 p-6 rounded-lg">
+                        <h5 class="font-bold text-primary mb-3">2. 技术路线修正（Next Steps）</h5>
+                        <p class="text-gray-700 mb-4">基于本周结论，下周将放弃小模型训练路线，全面转向<span class="font-bold">"LLM 提取工程化优化"</span>：</p>
+                        <ul class="list-disc list-inside text-gray-700 space-y-3">
+                            <li><span class="font-bold">Prompt Engineering 极致优化：</span>既然离不开 LLM，就把 Prompt 做到极致。引入 Few-Shot CoT（思维链），让 LLM 在提取三元组时先解释"为什么这是病机"，以减少幻觉。</li>
+                            <li><span class="font-bold">保留 KGGen 的聚类思想：</span>在 LLM 提取完三元组后，编写一个基于规则+轻量级 LLM 的<span class="font-bold">"后处理模块"</span>，专门处理同义词合并和归一化，而不是让 LLM 在提取时一次性做完。</li>
+                            <li><span class="font-bold">混合检索策略微调：</span>放弃纯 Embedding 检索，在检索阶段强制加入 BM25（关键词匹配）权重，确保中医专有名词的精确召回。</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="bg-gradient-to-r from-primary to-accent text-white p-6 rounded-lg mb-6">
+                    <h5 class="font-bold text-xl mb-3">一句话总结本周</h5>
+                    <p class="text-lg">
+                        虽然尝试了多种"捷径"均未通，但通过试错，坚定了以 <span class="font-bold">LLM 为核心</span> 构建高质量中医图谱的决心，后续将聚焦于如何用好 LLM，而非替代 LLM。
+                    </p>
+                </div>
+                
+                <p class="mt-4 text-gray-500 text-sm">更新时间：2026年1月8日</p>
             </div>
         </div>
     </section>
@@ -2324,6 +2516,7 @@ class ContextManager:
             const week9Progress = document.getElementById('week9Progress');
             const week10Progress = document.getElementById('week10Progress');
             const week11Progress = document.getElementById('week11Progress');
+            const week12Progress = document.getElementById('week12Progress');
             
             // 第一周特有内容
             const week1BooksList = document.getElementById('week1BooksList');
@@ -2358,6 +2551,7 @@ class ContextManager:
                 if (week9Progress) week9Progress.classList.add('hidden');
                 if (week10Progress) week10Progress.classList.add('hidden');
                 if (week11Progress) week11Progress.classList.add('hidden');
+                if (week12Progress) week12Progress.classList.add('hidden');
                 
                 // 显示选中的周内容
                 if (weekNumber === 1) {
@@ -2384,6 +2578,8 @@ class ContextManager:
                     week10Progress.classList.remove('hidden');
                 } else if (weekNumber === 11 && week11Progress) {
                     week11Progress.classList.remove('hidden');
+                } else if (weekNumber === 12 && week12Progress) {
+                    week12Progress.classList.remove('hidden');
                 }
             }
             
